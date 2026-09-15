@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Search, MapPin, Home, IndianRupee, ArrowRight, ShieldCheck, PhoneCall } from 'lucide-react';
 import { useRouter } from '../../context/RouterContext';
+import heroBgImage from '../../assets/images/luxury-terrace-hero-bg.jpg';
 
 export default function HeroSection() {
   const { navigate } = useRouter();
@@ -34,8 +35,17 @@ export default function HeroSection() {
 
   return (
     <section className="relative w-full pt-28 pb-16 lg:pt-36 lg:pb-24 overflow-hidden bg-[#FAF8F5]">
-      {/* Background Subtle Gradient & Pattern */}
-      <div className="absolute inset-0 bg-[radial-gradient(#0E2A1E_1px,transparent_1px)] [background-size:24px_24px] opacity-[0.03] pointer-events-none" />
+      {/* Photorealistic Luxury Residence Terrace & Cityscape Background */}
+      <div
+        className="absolute inset-0 bg-cover bg-center lg:bg-right-top transition-all duration-1000 pointer-events-none"
+        style={{
+          backgroundImage: `url('${heroBgImage}')`,
+        }}
+      >
+        {/* Soft, near-invisible light daylight overlay ensuring left-center readability without washing out nature or architecture */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#FAF8F5]/90 via-[#FAF8F5]/60 to-[#FAF8F5]/20 lg:from-[#FAF8F5]/92 lg:via-[#FAF8F5]/50 lg:to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#FAF8F5] via-transparent to-[#FAF8F5]/30" />
+      </div>
 
       <div className="container-luxury relative z-10">
         {/* Main Grid: Left Content & Right High-End Photography */}
