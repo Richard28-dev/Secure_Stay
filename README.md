@@ -5,6 +5,12 @@
 
 ---
 
+### 🌐 Live Website Link
+👉 **[Click Here to View the Live Website](https://richard28-dev.github.io/Secure-Stay-Real-Estate/)**  
+`https://richard28-dev.github.io/Secure-Stay-Real-Estate/`
+
+---
+
 ## 🏛️ Overview
 
 **SecureStay Real Estates** is an ultra-premium, interactive 3D real estate web platform benchmarked against leading luxury architectural and property auction houses (Sotheby's International Realty, Christie's International Real Estate, Knight Frank).
@@ -41,10 +47,10 @@
 
 ```bash
 # Clone repository
-git clone https://github.com/richard28_dev/securestay-real-estates.git
+git clone https://github.com/Richard28-dev/Secure-Stay-Real-Estate.git
 
 # Navigate into directory
-cd securestay-real-estates
+cd Secure-Stay-Real-Estate
 
 # Install dependencies
 npm install
