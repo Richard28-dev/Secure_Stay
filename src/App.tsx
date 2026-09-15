@@ -3,6 +3,7 @@ import { AuthProvider } from './context/AuthContext';
 import { PropertyProvider } from './context/PropertyContext';
 import Navbar from './components/common/Navbar';
 import Footer from './components/common/Footer';
+import PropertyCompareDrawer from './components/common/PropertyCompareDrawer';
 
 // Pages
 import HomePage from './pages/HomePage';
@@ -68,6 +69,7 @@ function AppContent() {
       <main className="flex-1">
         {renderCurrentPage()}
       </main>
+      <PropertyCompareDrawer />
       <Footer />
     </div>
   );

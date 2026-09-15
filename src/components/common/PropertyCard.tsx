@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ShieldCheck, Heart, Bed, Bath, Maximize2, MapPin, ArrowRight } from 'lucide-react';
+import { ShieldCheck, Heart, Bed, Bath, Maximize2, MapPin, ArrowRight, Scale } from 'lucide-react';
 import type { Property } from '../../types';
 import { useRouter } from '../../context/RouterContext';
 import { useProperties } from '../../context/PropertyContext';
@@ -11,10 +11,25 @@ interface PropertyCardProps {
 
 export default function PropertyCard({ property, showRecentBadge = false }: PropertyCardProps) {
   const { navigate } = useRouter();
-  const { toggleSaveProperty, isSaved } = useProperties();
+  const { toggleSaveProperty, isSaved, toggleCompareProperty, isCompared } = useProperties();
   const [activeImageIndex, setActiveImageIndex] = useState(0);
 
   const saved = isSaved(property.id);
+  const compared = isCompared(property.id);
+
+  // Quick EMI Estimation (80% loan, 8.5% p.a., 20 years tenure = ₹868 per lakh)
+  const estimatedEMI = React.useMemo(() => {
+    if (property.intent === 'rent') return null;
+    const loanAmount = property.priceValue * 0.8;
+    const monthlyRate = 0.085 / 12;
+    const months = 240;
+    const emi = (loanAmount * monthlyRate * Math.pow(1 + monthlyRate, months)) / (Math.pow(1 + monthlyRate, months) - 1);
+    if (isNaN(emi)) return null;
+    if (emi >= 100000) {
+      return `₹${(emi / 100000).toFixed(2)}L/mo`;
+    }
+    return `₹${Math.round(emi).toLocaleString('en-IN')}/mo`;
+  }, [property.priceValue, property.intent]);
 
   const handleCardClick = () => {
     navigate(`/property/${property.id}`);
@@ -25,10 +40,15 @@ export default function PropertyCard({ property, showRecentBadge = false }: Prop
     toggleSaveProperty(property.id);
   };
 
+  const handleCompareToggle = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    toggleCompareProperty(property.id);
+  };
+
   return (
     <div
       onClick={handleCardClick}
-      className="group bg-white border border-[#E5E0D8] hover:border-[#0E2A1E]/40 rounded-[8px] overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col cursor-pointer"
+      className="group bg-white border border-[#E5E0D8] hover:border-[#0E2A1E]/40 rounded-[8px] overflow-hidden shadow-xs hover:shadow-md transition-all duration-300 flex flex-col cursor-pointer relative"
     >
       {/* Property Image Container */}
       <div className="relative aspect-[16/10] w-full overflow-hidden bg-[#E8EFE8]">
@@ -41,7 +61,7 @@ export default function PropertyCard({ property, showRecentBadge = false }: Prop
 
         {/* Top Badges */}
         <div className="absolute top-3 left-3 flex items-center gap-1.5 z-10">
-          <span className="px-2.5 py-1 rounded-[4px] bg-[#0E2A1E]/95 text-[#FAF8F5] text-[11px] font-semibold uppercase tracking-wider">
+          <span className="px-2.5 py-1 rounded-[4px] bg-[#0E2A1E]/95 text-[#FAF8F5] text-[11px] font-semibold uppercase tracking-wider backdrop-blur-xs">
             {property.type}
           </span>
           {showRecentBadge && property.recent && (
@@ -51,17 +71,35 @@ export default function PropertyCard({ property, showRecentBadge = false }: Prop
           )}
         </div>
 
-        {/* Save Toggle Button */}
-        <button
-          onClick={handleSaveToggle}
-          aria-label="Save property"
-          className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/95 hover:bg-white flex items-center justify-center text-[#1A1C1A] shadow-sm transition-transform active:scale-90 z-10 cursor-pointer"
-        >
-          <Heart
-            size={16}
-            className={saved ? 'text-[#C5A880] fill-[#C5A880]' : 'text-[#5A605B]'}
-          />
-        </button>
+        {/* Action Controls: Compare & Save */}
+        <div className="absolute top-3 right-3 flex items-center gap-1.5 z-10">
+          {/* Compare Toggle */}
+          <button
+            onClick={handleCompareToggle}
+            aria-label="Compare property"
+            title={compared ? 'Remove from compare' : 'Add to compare'}
+            className={`w-8 h-8 rounded-full flex items-center justify-center transition-all shadow-xs cursor-pointer ${
+              compared
+                ? 'bg-[#0E2A1E] text-[#C5A880] scale-105'
+                : 'bg-white/95 hover:bg-white text-[#5A605B] hover:text-[#0E2A1E]'
+            }`}
+          >
+            <Scale size={15} />
+          </button>
+
+          {/* Save Toggle */}
+          <button
+            onClick={handleSaveToggle}
+            aria-label="Save property"
+            title={saved ? 'Remove from saved' : 'Save property'}
+            className="w-8 h-8 rounded-full bg-white/95 hover:bg-white flex items-center justify-center text-[#1A1C1A] shadow-xs transition-transform active:scale-90 cursor-pointer"
+          >
+            <Heart
+              size={15}
+              className={saved ? 'text-[#0E2A1E] fill-[#0E2A1E]' : 'text-[#5A605B]'}
+            />
+          </button>
+        </div>
 
         {/* Image dots if multiple images */}
         {property.images.length > 1 && (
@@ -99,16 +137,24 @@ export default function PropertyCard({ property, showRecentBadge = false }: Prop
           </h3>
 
           {/* Location */}
-          <div className="flex items-center gap-1 text-[13px] text-[#5A605B] mb-3.5">
+          <div className="flex items-center gap-1 text-[13px] text-[#5A605B] mb-3">
             <MapPin size={13} className="text-[#0E2A1E] shrink-0" />
             <span className="truncate">{property.location}</span>
           </div>
 
-          {/* BHK & Area Highlight Tag */}
-          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[4px] bg-[#FAF8F5] border border-[#E5E0D8] text-[12px] font-medium text-[#1A1C1A] mb-3">
-            <span>{property.bedrooms} BHK</span>
-            <span className="text-[#8C938E]">·</span>
-            <span>{property.area}</span>
+          {/* BHK & Area Highlight Tag & EMI Pill */}
+          <div className="flex flex-wrap items-center gap-2 mb-3">
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[4px] bg-[#FAF8F5] border border-[#E5E0D8] text-[12px] font-semibold text-[#1A1C1A]">
+              <span>{property.bedrooms} BHK</span>
+              <span className="text-[#8C938E]">·</span>
+              <span>{property.area}</span>
+            </div>
+
+            {estimatedEMI && (
+              <div className="inline-flex items-center px-2 py-1 rounded-[4px] bg-[#E8EFE8] text-[#0E2A1E] text-[11px] font-bold">
+                <span>EMI ~ {estimatedEMI}</span>
+              </div>
+            )}
           </div>
 
           {/* Key Specs Row */}

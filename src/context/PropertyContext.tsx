@@ -12,11 +12,16 @@ interface PropertyContextType {
   properties: Property[];
   savedPropertyIds: string[];
   savedProperties: Property[];
+  comparePropertyIds: string[];
+  compareProperties: Property[];
   enquiries: EnquirySubmission[];
   viewings: ViewingAppointment[];
   toasts: ToastMessage[];
   toggleSaveProperty: (id: string) => void;
   isSaved: (id: string) => boolean;
+  toggleCompareProperty: (id: string) => void;
+  isCompared: (id: string) => boolean;
+  clearCompare: () => void;
   getPropertyById: (id: string) => Property | undefined;
   addProperty: (property: Omit<Property, 'id' | 'slug'>) => Property;
   updateProperty: (id: string, updates: Partial<Property>) => void;
@@ -60,6 +65,8 @@ export const PropertyProvider: React.FC<{ children: ReactNode }> = ({ children }
       return ['prop-grand-oak', 'prop-palm-grove-goa'];
     }
   });
+
+  const [comparePropertyIds, setComparePropertyIds] = useState<string[]>([]);
 
   const [enquiries, setEnquiries] = useState<EnquirySubmission[]>(() => {
     try {
@@ -176,6 +183,28 @@ export const PropertyProvider: React.FC<{ children: ReactNode }> = ({ children }
 
   const isSaved = (id: string) => savedPropertyIds.includes(id);
 
+  const toggleCompareProperty = (id: string) => {
+    setComparePropertyIds((prev) => {
+      if (prev.includes(id)) {
+        showToast('Removed from property comparison', 'info');
+        return prev.filter((item) => item !== id);
+      }
+      if (prev.length >= 3) {
+        showToast('You can compare up to 3 properties at a time', 'error');
+        return prev;
+      }
+      showToast('Added to property comparison', 'success');
+      return [...prev, id];
+    });
+  };
+
+  const isCompared = (id: string) => comparePropertyIds.includes(id);
+
+  const clearCompare = () => setComparePropertyIds([]);
+
+  const savedProperties = properties.filter((p) => savedPropertyIds.includes(p.id));
+  const compareProperties = properties.filter((p) => comparePropertyIds.includes(p.id));
+
   const getPropertyById = (id: string) => {
     return properties.find((p) => p.id === id || p.slug === id);
   };
@@ -256,8 +285,6 @@ export const PropertyProvider: React.FC<{ children: ReactNode }> = ({ children }
     showToast(`Enquiry status updated to ${status}`, 'info');
   };
 
-  const savedProperties = properties.filter((p) => savedPropertyIds.includes(p.id));
-
   const filterProperties = (filters: Partial<FilterState>): Property[] => {
     return properties.filter((item) => {
       if (item.status === 'archived') return false;
@@ -308,11 +335,16 @@ export const PropertyProvider: React.FC<{ children: ReactNode }> = ({ children }
         properties,
         savedPropertyIds,
         savedProperties,
+        comparePropertyIds,
+        compareProperties,
         enquiries,
         viewings,
         toasts,
         toggleSaveProperty,
         isSaved,
+        toggleCompareProperty,
+        isCompared,
+        clearCompare,
         getPropertyById,
         addProperty,
         updateProperty,

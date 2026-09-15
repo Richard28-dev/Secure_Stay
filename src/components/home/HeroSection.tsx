@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, MapPin, Home, IndianRupee, ArrowRight, ShieldCheck, PhoneCall } from 'lucide-react';
+import { Search, MapPin, Home, IndianRupee, ArrowRight, ShieldCheck, PhoneCall, Sparkles } from 'lucide-react';
 import { useRouter } from '../../context/RouterContext';
 import heroBgImage from '../../assets/images/luxury-terrace-hero-bg.jpg';
 
@@ -10,8 +10,22 @@ export default function HeroSection() {
   const [locationInput, setLocationInput] = useState('');
   const [propertyType, setPropertyType] = useState('All Types');
   const [budget, setBudget] = useState('Any Budget');
+  const [isLocationFocused, setIsLocationFocused] = useState(false);
 
-  const locationSuggestions = ['Bangalore', 'Whitefield', 'Sarjapur', 'Electronic City', 'Hyderabad', 'Goa', 'Mumbai'];
+  const locationSuggestions = [
+    { name: 'Whitefield', city: 'Bangalore', count: '48 verified homes' },
+    { name: 'Sarjapur Road', city: 'Bangalore', count: '34 villas' },
+    { name: 'Electronic City', city: 'Bangalore', count: '52 apartments' },
+    { name: 'HITEC City', city: 'Hyderabad', count: '29 penthouses' },
+    { name: 'Assagao', city: 'Goa', count: '18 heritage estates' },
+    { name: 'Bandra Kurla Complex (BKC)', city: 'Mumbai', count: '22 prime residences' },
+  ];
+
+  const filteredLocations = locationSuggestions.filter(
+    (loc) =>
+      loc.name.toLowerCase().includes(locationInput.toLowerCase()) ||
+      loc.city.toLowerCase().includes(locationInput.toLowerCase())
+  );
 
   const handleSearchSubmit = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
@@ -112,7 +126,7 @@ export default function HeroSection() {
                 className="w-full h-[400px] sm:h-[460px] lg:h-[480px] object-cover"
                 loading="eager"
               />
-              
+
               {/* Subtle Natural Gradient Overlay at Bottom */}
               <div className="absolute inset-0 bg-gradient-to-t from-[#0E2A1E]/80 via-transparent to-transparent opacity-90" />
 
@@ -128,7 +142,7 @@ export default function HeroSection() {
                 </div>
                 <button
                   onClick={() => navigate('/property/the-grand-oak-sanctuary-villa')}
-                  className="px-3.5 py-2 rounded-[6px] bg-[#0E2A1E] text-white text-[13px] font-medium hover:bg-[#163A29] transition-colors whitespace-nowrap cursor-pointer"
+                  className="px-3.5 py-2 rounded-[6px] bg-[#0E2A1E] text-white text-[13px] font-medium hover:bg-[#163A29] transition-colors whitespace-nowrap cursor-pointer shadow-xs"
                 >
                   View Home
                 </button>
@@ -140,45 +154,80 @@ export default function HeroSection() {
         {/* Practical Real Estate Property Search Bar */}
         <div className="bg-white rounded-[8px] shadow-lg border border-[#E5E0D8] p-4 sm:p-6 transition-shadow hover:shadow-xl">
           {/* Intent Tabs */}
-          <div className="flex items-center gap-2 mb-4 border-b border-[#E5E0D8] pb-3">
-            <button
-              onClick={() => setIntent('buy')}
-              className={`px-4 py-1.5 rounded-[6px] text-[13px] font-semibold transition-all cursor-pointer ${
-                intent === 'buy'
-                  ? 'bg-[#0E2A1E] text-[#FAF8F5]'
-                  : 'text-[#5A605B] hover:text-[#1A1C1A] hover:bg-[#F3EFEA]'
-              }`}
-            >
-              Buy a Home
-            </button>
-            <button
-              onClick={() => setIntent('rent')}
-              className={`px-4 py-1.5 rounded-[6px] text-[13px] font-semibold transition-all cursor-pointer ${
-                intent === 'rent'
-                  ? 'bg-[#0E2A1E] text-[#FAF8F5]'
-                  : 'text-[#5A605B] hover:text-[#1A1C1A] hover:bg-[#F3EFEA]'
-              }`}
-            >
-              Rent a Home
-            </button>
+          <div className="flex items-center justify-between mb-4 border-b border-[#E5E0D8] pb-3">
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setIntent('buy')}
+                className={`px-4 py-1.5 rounded-[6px] text-[13px] font-semibold transition-all cursor-pointer ${
+                  intent === 'buy'
+                    ? 'bg-[#0E2A1E] text-[#FAF8F5]'
+                    : 'text-[#5A605B] hover:text-[#1A1C1A] hover:bg-[#F3EFEA]'
+                }`}
+              >
+                Buy a Home
+              </button>
+              <button
+                onClick={() => setIntent('rent')}
+                className={`px-4 py-1.5 rounded-[6px] text-[13px] font-semibold transition-all cursor-pointer ${
+                  intent === 'rent'
+                    ? 'bg-[#0E2A1E] text-[#FAF8F5]'
+                    : 'text-[#5A605B] hover:text-[#1A1C1A] hover:bg-[#F3EFEA]'
+                }`}
+              >
+                Rent a Home
+              </button>
+            </div>
+
+            <div className="hidden sm:flex items-center gap-1.5 text-[12px] text-[#0E2A1E] font-semibold bg-[#E8EFE8] px-2.5 py-1 rounded-[4px]">
+              <Sparkles size={13} />
+              <span>Live Market Availability</span>
+            </div>
           </div>
 
           <form onSubmit={handleSearchSubmit} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3 sm:gap-4 items-end">
-            {/* Field 1: Location */}
-            <div className="lg:col-span-4">
+            {/* Field 1: Location with Autocomplete Suggestions */}
+            <div className="lg:col-span-4 relative">
               <label className="block text-[12px] font-bold uppercase tracking-wider text-[#5A605B] mb-1.5">
-                Location
+                Location / Locality
               </label>
               <div className="relative">
                 <MapPin size={17} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#5A605B]" />
                 <input
                   type="text"
-                  placeholder="e.g. Whitefield, Bangalore, Goa..."
+                  placeholder="e.g. Whitefield, Sarjapur, Goa..."
                   value={locationInput}
                   onChange={(e) => setLocationInput(e.target.value)}
+                  onFocus={() => setIsLocationFocused(true)}
+                  onBlur={() => setTimeout(() => setIsLocationFocused(false), 200)}
                   className="w-full pl-10 pr-3.5 py-2.5 bg-[#FAF8F5] border border-[#E5E0D8] rounded-[6px] text-[14px] text-[#1A1C1A] placeholder-[#8C938E] focus:outline-none focus:border-[#0E2A1E] transition-colors"
                 />
               </div>
+
+              {/* Autocomplete Dropdown */}
+              {isLocationFocused && filteredLocations.length > 0 && (
+                <div className="absolute left-0 right-0 top-full mt-1.5 bg-white border border-[#E5E0D8] rounded-[8px] shadow-xl z-50 max-h-56 overflow-y-auto py-1">
+                  {filteredLocations.map((loc) => (
+                    <button
+                      key={loc.name}
+                      type="button"
+                      onMouseDown={() => {
+                        setLocationInput(loc.name);
+                        setIsLocationFocused(false);
+                      }}
+                      className="w-full px-4 py-2 text-left hover:bg-[#FAF8F5] flex items-center justify-between text-[13px] text-[#1A1C1A] cursor-pointer"
+                    >
+                      <div className="flex items-center gap-2">
+                        <MapPin size={14} className="text-[#0E2A1E]" />
+                        <span className="font-semibold">{loc.name}</span>
+                        <span className="text-[#8C938E] text-[12px]">({loc.city})</span>
+                      </div>
+                      <span className="text-[11px] text-[#0E2A1E] font-medium bg-[#E8EFE8] px-2 py-0.5 rounded">
+                        {loc.count}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Field 2: Property Type */}
@@ -248,17 +297,17 @@ export default function HeroSection() {
           {/* Quick Popular Locations */}
           <div className="flex flex-wrap items-center gap-2 mt-4 pt-3 border-t border-[#E5E0D8]/60 text-[12px] text-[#5A605B]">
             <span className="font-semibold text-[#1A1C1A]">Popular searches:</span>
-            {locationSuggestions.map((loc) => (
+            {locationSuggestions.slice(0, 5).map((loc) => (
               <button
-                key={loc}
+                key={loc.name}
                 type="button"
                 onClick={() => {
-                  setLocationInput(loc);
-                  navigate('/search', { city: loc, intent });
+                  setLocationInput(loc.name);
+                  navigate('/search', { city: loc.name, intent });
                 }}
                 className="px-2.5 py-1 rounded-[4px] bg-[#F3EFEA] hover:bg-[#E5E0D8] text-[#1A1C1A] transition-colors cursor-pointer"
               >
-                {loc}
+                {loc.name}
               </button>
             ))}
           </div>
