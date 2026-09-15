@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { locations } from '../data/properties';
 import ScrollReveal from './ScrollReveal';
-import { MapPin, ArrowUpRight, Building } from 'lucide-react';
+import { MapPin, ArrowUpRight } from 'lucide-react';
 
 const cityVignettes: Record<string, { image: string; tag: string; description: string }> = {
   Bangalore: {

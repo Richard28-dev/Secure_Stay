@@ -1,4 +1,4 @@
-import { ArrowUpRight } from 'lucide-react';
+// Footer navigation links
 
 const footerLinks = {
   portfolio: [

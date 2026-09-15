@@ -1,7 +1,6 @@
-import { useState } from 'react';
 import { projects } from '../data/properties';
 import ScrollReveal from './ScrollReveal';
-import { MapPin, Building2, Home, ArrowRight, ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 
 const projectBackdrops = [
   'url(/images/skyline-crest.jpg)',
@@ -10,7 +9,6 @@ const projectBackdrops = [
 ];
 
 export default function SignatureProjects() {
-  const [activeProject, setActiveProject] = useState<string>(projects[0].id);
 
   return (
     <section id="projects" className="section-wrapper bg-[#F2EFE9] text-[#17181C]">

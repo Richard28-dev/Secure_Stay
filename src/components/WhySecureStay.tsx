@@ -1,5 +1,5 @@
 import ScrollReveal from './ScrollReveal';
-import { ShieldCheck, Compass, Award, Gem, ArrowRight } from 'lucide-react';
+import { ShieldCheck, Compass, Award, Gem } from 'lucide-react';
 
 const pillars = [
   {

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Search, MapPin, Building, Coins, BedDouble, ArrowUpRight } from 'lucide-react';
+import { Search, MapPin, Building, Coins, BedDouble } from 'lucide-react';
 import ScrollReveal from './ScrollReveal';
 
 const locationOptions = ['All Locations', 'Bangalore', 'Hyderabad', 'Chennai', 'Mumbai', 'Pune', 'Goa'];

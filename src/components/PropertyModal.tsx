@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import {
   X, MapPin, BedDouble, Bath, Maximize2, Car, Phone, Mail,
-  Calendar, Box, Shield, Wifi, Dumbbell, TreePine, Waves, CheckCircle2, ArrowUpRight
+  Box, Shield, Wifi, Dumbbell, TreePine, Waves, CheckCircle2, ArrowUpRight
 } from 'lucide-react';
 import type { Property } from '../data/properties';
 

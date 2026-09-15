@@ -3,7 +3,7 @@ import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Environment, Html } from '@react-three/drei';
 import ShowcaseVilla from './3d/ShowcaseVilla';
 import ScrollReveal from './ScrollReveal';
-import { X, Eye, Layers, Compass, Sparkles } from 'lucide-react';
+import { X, Compass, Sparkles } from 'lucide-react';
 
 interface Hotspot {
   id: string;

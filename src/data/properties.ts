@@ -33,6 +33,7 @@ export interface Project {
   startingPrice: string;
   description: string;
   image: string;
+  completion: string;
 }
 
 export interface Testimonial {
@@ -205,6 +206,7 @@ export const projects: Project[] = [
     startingPrice: '₹1.85 Cr onwards',
     description: 'A flagship residential project offering contemporary apartments with world-class amenities in the heart of Bangalore.',
     image: '',
+    completion: 'Q4 2026',
   },
   {
     id: 'the-grove-villas',
@@ -215,6 +217,7 @@ export const projects: Project[] = [
     startingPrice: '₹3.90 Cr onwards',
     description: 'An exclusive collection of luxury villas surrounded by tropical landscapes in North Goa.',
     image: '',
+    completion: 'Q2 2027',
   },
   {
     id: 'skyline-one',
@@ -225,6 +228,7 @@ export const projects: Project[] = [
     startingPrice: '₹1.45 Cr onwards',
     description: 'A landmark high-rise development offering panoramic city views and premium living in HITEC City.',
     image: '',
+    completion: 'Q1 2027',
   },
 ];
 
