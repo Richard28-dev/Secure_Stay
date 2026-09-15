@@ -37,14 +37,16 @@ export default function HeroSection() {
     <section className="relative w-full pt-28 pb-16 lg:pt-36 lg:pb-24 overflow-hidden bg-[#FAF8F5]">
       {/* Photorealistic Luxury Residence Terrace & Cityscape Background */}
       <div
-        className="absolute inset-0 bg-cover bg-center lg:bg-right-top transition-all duration-1000 pointer-events-none"
+        className="absolute inset-0 bg-cover bg-center transition-all duration-1000 pointer-events-none"
         style={{
           backgroundImage: `url('${heroBgImage}')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
         }}
       >
         {/* Soft, near-invisible light daylight overlay ensuring left-center readability without washing out nature or architecture */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#FAF8F5]/90 via-[#FAF8F5]/60 to-[#FAF8F5]/20 lg:from-[#FAF8F5]/92 lg:via-[#FAF8F5]/50 lg:to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#FAF8F5] via-transparent to-[#FAF8F5]/30" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#FAF8F5]/85 via-[#FAF8F5]/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#FAF8F5]/90 via-transparent to-[#FAF8F5]/20" />
       </div>
 
       <div className="container-luxury relative z-10">
