@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { ArrowRight, ArrowUpDown, Filter } from 'lucide-react';
+import { ArrowRight, ArrowUpDown, Filter, Heart, Bed, Bath, Maximize2, MapPin } from 'lucide-react';
 import { useProperties } from '../../context/PropertyContext';
 import PropertyCard from '../common/PropertyCard';
 import { useRouter } from '../../context/RouterContext';
 
 export default function FeaturedSection() {
-  const { properties } = useProperties();
+  const { properties, isSaved, toggleSaveProperty } = useProperties();
   const { navigate } = useRouter();
 
   const [activeTab, setActiveTab] = useState<'all' | 'Apartment' | 'Villa' | 'Penthouse'>('all');
@@ -27,8 +27,9 @@ export default function FeaturedSection() {
     return (b.featured ? 1 : 0) - (a.featured ? 1 : 0);
   });
 
-  // Display top 6
-  const displayProperties = filtered.slice(0, 6);
+  const heroProperty = filtered[0];
+  const companionProperties = filtered.slice(1, 3);
+  const remainingProperties = filtered.slice(3, 6);
 
   return (
     <section id="featured" className="py-16 lg:py-24 bg-white border-t border-[#E5E0D8]">
@@ -88,12 +89,153 @@ export default function FeaturedSection() {
           </div>
         </div>
 
-        {/* Properties Grid */}
-        {displayProperties.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
-            {displayProperties.map((property) => (
-              <PropertyCard key={property.id} property={property} />
-            ))}
+        {filtered.length > 0 ? (
+          <div className="space-y-8">
+            {/* Top Editorial Asymmetry: 1 Prominent Hero Listing (6 cols) + 2 Companion Cards (6 cols) */}
+            {heroProperty && (
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-7 items-stretch">
+                {/* Large Featured Property (6 cols) */}
+                <div
+                  onClick={() => navigate(`/property/${heroProperty.id}`)}
+                  className="lg:col-span-6 bg-white border border-[#E5E0D8] hover:border-[#0E2A1E]/40 rounded-[8px] overflow-hidden shadow-xs hover:shadow-md transition-all duration-300 cursor-pointer flex flex-col justify-between group"
+                >
+                  <div className="relative aspect-[16/11] w-full overflow-hidden bg-[#E8EFE8]">
+                    <img
+                      src={heroProperty.images[0]}
+                      alt={heroProperty.title}
+                      loading="lazy"
+                      className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500"
+                    />
+                    <div className="absolute top-3.5 left-3.5 flex items-center gap-2 z-10">
+                      <span className="px-2.5 py-1 rounded-[4px] bg-[#0E2A1E] text-[#FAF8F5] text-[11px] font-bold uppercase tracking-wider">
+                        ★ Signature Residence
+                      </span>
+                      <span className="px-2.5 py-1 rounded-[4px] bg-white/95 text-[#0E2A1E] text-[11px] font-semibold">
+                        {heroProperty.type}
+                      </span>
+                    </div>
+
+                    <button
+                      type="button"
+                      aria-label="Save property"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleSaveProperty(heroProperty.id);
+                      }}
+                      className="absolute top-3.5 right-3.5 w-8 h-8 rounded-full bg-white/90 backdrop-blur-xs flex items-center justify-center text-[#1A1C1A] hover:text-rose-600 transition-colors z-10 shadow-xs cursor-pointer"
+                    >
+                      <Heart
+                        size={16}
+                        className={isSaved(heroProperty.id) ? 'fill-rose-600 text-rose-600' : 'text-[#1A1C1A]'}
+                      />
+                    </button>
+                  </div>
+
+                  <div className="p-6 sm:p-7 flex-1 flex flex-col justify-between">
+                    <div>
+                      <div className="flex items-center gap-1.5 text-[12.5px] text-[#5A605B] mb-1.5">
+                        <MapPin size={14} className="text-[#0E2A1E] shrink-0" />
+                        <span>{heroProperty.location}</span>
+                      </div>
+
+                      <h3 className="text-[22px] font-bold text-[#1A1C1A] group-hover:text-[#0E2A1E] transition-colors leading-snug font-heading mb-3">
+                        {heroProperty.title}
+                      </h3>
+
+                      <div className="flex items-center gap-4 text-[13px] text-[#5A605B] pb-4 border-b border-[#E5E0D8]">
+                        <span className="flex items-center gap-1.5">
+                          <Bed size={15} className="text-[#0E2A1E]" />
+                          {heroProperty.bedrooms} BHK
+                        </span>
+                        <span>·</span>
+                        <span className="flex items-center gap-1.5">
+                          <Bath size={15} className="text-[#0E2A1E]" />
+                          {heroProperty.bathrooms} Baths
+                        </span>
+                        <span>·</span>
+                        <span className="flex items-center gap-1.5">
+                          <Maximize2 size={15} className="text-[#0E2A1E]" />
+                          {heroProperty.area}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="pt-4 flex items-center justify-between">
+                      <div>
+                        <span className="text-[11px] uppercase tracking-wider text-[#5A605B] font-bold block">
+                          Guide Price
+                        </span>
+                        <span className="text-[20px] font-bold text-[#0E2A1E] font-heading">
+                          {heroProperty.price}
+                        </span>
+                      </div>
+
+                      <span className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-[#0E2A1E] group-hover:translate-x-0.5 transition-transform">
+                        <span>View Residence</span>
+                        <ArrowRight size={15} />
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 2 Companion Horizontal Cards (6 cols) */}
+                <div className="lg:col-span-6 flex flex-col gap-6">
+                  {companionProperties.map((prop) => (
+                    <div
+                      key={prop.id}
+                      onClick={() => navigate(`/property/${prop.id}`)}
+                      className="bg-white border border-[#E5E0D8] hover:border-[#0E2A1E]/40 rounded-[8px] overflow-hidden shadow-xs hover:shadow-md transition-all duration-300 cursor-pointer flex flex-col sm:flex-row flex-1 group"
+                    >
+                      <div className="relative sm:w-[42%] aspect-[16/10] sm:aspect-auto overflow-hidden bg-[#E8EFE8] shrink-0">
+                        <img
+                          src={prop.images[0]}
+                          alt={prop.title}
+                          loading="lazy"
+                          className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500"
+                        />
+                        <span className="absolute top-3 left-3 px-2 py-0.5 rounded-[4px] bg-[#0E2A1E] text-[#FAF8F5] text-[10.5px] font-semibold uppercase tracking-wider">
+                          {prop.type}
+                        </span>
+                      </div>
+
+                      <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                          <div className="flex items-center gap-1.5 text-[12px] text-[#5A605B] mb-1">
+                            <MapPin size={13} className="text-[#0E2A1E] shrink-0" />
+                            <span>{prop.location}</span>
+                          </div>
+                          <h4 className="text-[17px] font-bold text-[#1A1C1A] group-hover:text-[#0E2A1E] transition-colors leading-snug font-heading mb-2">
+                            {prop.title}
+                          </h4>
+                          <p className="text-[12.5px] text-[#5A605B]">
+                            {prop.bedrooms} BHK · {prop.area}
+                          </p>
+                        </div>
+
+                        <div className="pt-3 mt-3 border-t border-[#E5E0D8] flex items-center justify-between">
+                          <span className="text-[17px] font-bold text-[#0E2A1E] font-heading">
+                            {prop.price}
+                          </span>
+                          <span className="text-[12.5px] font-semibold text-[#0E2A1E] flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+                            <span>Details</span>
+                            <ArrowRight size={13} />
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Remaining Grid Row */}
+            {remainingProperties.length > 0 && (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7 pt-4">
+                {remainingProperties.map((property) => (
+                  <PropertyCard key={property.id} property={property} />
+                ))}
+              </div>
+            )}
           </div>
         ) : (
           <div className="bg-white border border-[#E5E0D8] rounded-[8px] p-12 text-center max-w-lg mx-auto">

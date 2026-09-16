@@ -1,14 +1,11 @@
 import HeroSection from '../components/home/HeroSection';
-import TrustStats from '../components/home/TrustStats';
 import FeaturedSection from '../components/home/FeaturedSection';
 import ExploreLocations from '../components/home/ExploreLocations';
-import CuratedCollections from '../components/home/CuratedCollections';
 import WhySecureStay from '../components/home/WhySecureStay';
-import HowItWorksSection from '../components/home/HowItWorksSection';
+import CuratedCollections from '../components/home/CuratedCollections';
 import PremiumShowcase from '../components/home/PremiumShowcase';
-import RecentSlider from '../components/home/RecentSlider';
+import HowItWorksSection from '../components/home/HowItWorksSection';
 import MarketTrendsSection from '../components/home/MarketTrendsSection';
-import MortgageCalculatorSection from '../components/home/MortgageCalculatorSection';
 import ServicesSection from '../components/home/ServicesSection';
 import TestimonialsSection from '../components/home/TestimonialsSection';
 import FinalEnquirySection from '../components/home/FinalEnquirySection';
@@ -16,46 +13,37 @@ import FinalEnquirySection from '../components/home/FinalEnquirySection';
 export default function HomePage() {
   return (
     <div className="w-full">
-      {/* 1. HERO + PROPERTY SEARCH */}
+      {/* 02 — HERO + PRACTICAL PROPERTY SEARCH */}
       <HeroSection />
 
-      {/* 2. TRUST STATISTICS */}
-      <TrustStats />
-
-      {/* 3. FEATURED PROPERTIES */}
+      {/* 03 — FEATURED PROPERTIES (EDITORIAL ASYMMETRY) */}
       <FeaturedSection />
 
-      {/* 4. EXPLORE BY LOCATION */}
+      {/* 04 — EXPLORE LOCATIONS (MAGAZINE CITY PANELS) */}
       <ExploreLocations />
 
-      {/* 5. PROPERTY COLLECTIONS */}
-      <CuratedCollections />
-
-      {/* 6. WHY SECURESTAY */}
+      {/* 05 — WHY SECURESTAY / TRUST (PHOTOGRAPHY + 3 PILLARS + STATS) */}
       <WhySecureStay />
 
-      {/* 7. HOW IT WORKS */}
-      <HowItWorksSection />
+      {/* 06 — PROPERTY COLLECTIONS */}
+      <CuratedCollections />
 
-      {/* 8. PREMIUM PROPERTY SHOWCASE */}
+      {/* 07 — FEATURED PROPERTY STORY (PROPERTY OF THE MONTH) */}
       <PremiumShowcase />
 
-      {/* 9. RECENTLY ADDED */}
-      <RecentSlider />
+      {/* 08 — HOW IT WORKS */}
+      <HowItWorksSection />
 
-      {/* 10. MARKET INSIGHTS */}
+      {/* 09 — MARKET INSIGHTS */}
       <MarketTrendsSection />
 
-      {/* 11. EMI / AFFORDABILITY CALCULATOR */}
-      <MortgageCalculatorSection />
-
-      {/* 12. OUR SERVICES */}
+      {/* 10 — REAL ESTATE SERVICES */}
       <ServicesSection />
 
-      {/* 13. TESTIMONIALS */}
+      {/* 11 — CLIENT TESTIMONIALS */}
       <TestimonialsSection />
 
-      {/* 14. FINAL ENQUIRY CTA */}
+      {/* 12 — FINAL CONTACT CTA */}
       <FinalEnquirySection />
     </div>
   );
