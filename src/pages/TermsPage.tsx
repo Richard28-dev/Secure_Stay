@@ -50,7 +50,7 @@ export default function TermsPage() {
               3. Intellectual Property
             </h2>
             <p>
-              All architectural renderings, 3D interactive hero models, and editorial copy are the intellectual property of SecureStay Real Estate Advisory.
+              All architectural photography, curated layouts, and editorial copy are the intellectual property of SecureStay Real Estate Advisory.
             </p>
           </section>
         </div>

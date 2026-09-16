@@ -79,14 +79,14 @@ export default function ListPropertyPage() {
     }
   };
 
-  const handleSubmitListing = (e: React.FormEvent) => {
+  const handleSubmitListing = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!title.trim() || !location.trim() || !description.trim()) {
       showToast('Please complete all required listing fields', 'error');
       return;
     }
 
-    const newProp = addProperty({
+    const newProp = await addProperty({
       title: title.trim(),
       location: location.trim(),
       city: city.trim(),

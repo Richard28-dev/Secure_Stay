@@ -13,7 +13,7 @@ export default function PremiumShowcase() {
 
   if (!showcaseProperty) return null;
 
-  const images = showcaseProperty.images.length > 0 ? showcaseProperty.images : [
+  const images = (showcaseProperty.images && showcaseProperty.images.length > 0) ? showcaseProperty.images : [
     'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1400&q=80',
     'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1400&q=80',
     'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1400&q=80',
@@ -26,6 +26,8 @@ export default function PremiumShowcase() {
   const handlePrev = () => {
     setActiveImgIndex((prev) => (prev - 1 + images.length) % images.length);
   };
+
+  const propertyId = showcaseProperty.id || (showcaseProperty as any)._id || 'ESTATE-01';
 
   return (
     <section className="section-wrapper bg-[#071710] text-[#FAF8F5] relative overflow-hidden">
@@ -42,7 +44,7 @@ export default function PremiumShowcase() {
             Premium Property Showcase
           </h2>
           <span className="text-[13px] text-[#D2DFD2] font-mono">
-            ESTATE ID: {showcaseProperty.id.toUpperCase()}
+            ESTATE ID: {String(propertyId).toUpperCase()}
           </span>
         </div>
 
@@ -52,8 +54,8 @@ export default function PremiumShowcase() {
           <div className="lg:col-span-7">
             <div className="relative aspect-[16/11] rounded-[8px] overflow-hidden border border-white/15 shadow-2xl group bg-[#0E2A1E]">
               <img
-                src={images[activeImgIndex]}
-                alt={showcaseProperty.title}
+                src={images[activeImgIndex] || images[0]}
+                alt={showcaseProperty.title || 'Featured Property'}
                 className="w-full h-full object-cover transition-all duration-700"
               />
 
@@ -127,9 +129,11 @@ export default function PremiumShowcase() {
                 <span className="text-[32px] font-extrabold text-[#C5A880] font-heading">
                   {showcaseProperty.price}
                 </span>
-                <span className="text-[12px] text-[#D2DFD2]/70 ml-2">
-                  ({showcaseProperty.pricePerSqFt})
-                </span>
+                {showcaseProperty.pricePerSqFt && (
+                  <span className="text-[12px] text-[#D2DFD2]/70 ml-2">
+                    ({showcaseProperty.pricePerSqFt})
+                  </span>
+                )}
               </div>
 
               {/* Description */}
@@ -138,17 +142,19 @@ export default function PremiumShowcase() {
               </p>
 
               {/* Highlights List */}
-              <div className="space-y-2.5 mb-8">
-                <span className="text-[11px] uppercase font-bold tracking-wider text-[#FAF8F5] block">
-                  Key Architectural Highlights:
-                </span>
-                {showcaseProperty.highlights.slice(0, 3).map((h, i) => (
-                  <div key={i} className="flex items-start gap-2.5 text-[13px] text-[#FAF8F5]/90">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#C5A880] mt-2 shrink-0" />
-                    <span>{h}</span>
-                  </div>
-                ))}
-              </div>
+              {showcaseProperty.highlights && showcaseProperty.highlights.length > 0 && (
+                <div className="space-y-2.5 mb-8">
+                  <span className="text-[11px] uppercase font-bold tracking-wider text-[#FAF8F5] block">
+                    Key Architectural Highlights:
+                  </span>
+                  {showcaseProperty.highlights.slice(0, 3).map((h, i) => (
+                    <div key={i} className="flex items-start gap-2.5 text-[13px] text-[#FAF8F5]/90">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#C5A880] mt-2 shrink-0" />
+                      <span>{h}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
 
               {/* Key Specs */}
               <div className="grid grid-cols-3 gap-3 py-4 border-y border-white/15 text-[13px] mb-8">

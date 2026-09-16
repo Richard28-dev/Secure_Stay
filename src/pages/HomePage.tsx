@@ -1,13 +1,13 @@
 import HeroSection from '../components/home/HeroSection';
-import PropertyDiscoverySection from '../components/home/PropertyDiscoverySection';
 import TrustStats from '../components/home/TrustStats';
 import FeaturedSection from '../components/home/FeaturedSection';
-import CuratedCollections from '../components/home/CuratedCollections';
 import ExploreLocations from '../components/home/ExploreLocations';
+import CuratedCollections from '../components/home/CuratedCollections';
 import WhySecureStay from '../components/home/WhySecureStay';
 import HowItWorksSection from '../components/home/HowItWorksSection';
+import PremiumShowcase from '../components/home/PremiumShowcase';
+import RecentSlider from '../components/home/RecentSlider';
 import MarketTrendsSection from '../components/home/MarketTrendsSection';
-import StepInside3DSection from '../components/home/StepInside3DSection';
 import MortgageCalculatorSection from '../components/home/MortgageCalculatorSection';
 import ServicesSection from '../components/home/ServicesSection';
 import TestimonialsSection from '../components/home/TestimonialsSection';
@@ -16,46 +16,46 @@ import FinalEnquirySection from '../components/home/FinalEnquirySection';
 export default function HomePage() {
   return (
     <div className="w-full">
-      {/* 1. HERO + SEARCH */}
+      {/* 1. HERO + PROPERTY SEARCH */}
       <HeroSection />
 
-      {/* 2. PROPERTY DISCOVERY CATEGORIES */}
-      <PropertyDiscoverySection />
-
-      {/* 3. KEY TRUST STATS */}
+      {/* 2. TRUST STATISTICS */}
       <TrustStats />
 
-      {/* 4. FEATURED PROPERTIES */}
+      {/* 3. FEATURED PROPERTIES */}
       <FeaturedSection />
+
+      {/* 4. EXPLORE BY LOCATION */}
+      <ExploreLocations />
 
       {/* 5. PROPERTY COLLECTIONS */}
       <CuratedCollections />
 
-      {/* 6. EXPLORE BY LOCATION */}
-      <ExploreLocations />
-
-      {/* 7. WHY SECURESTAY */}
+      {/* 6. WHY SECURESTAY */}
       <WhySecureStay />
 
-      {/* 8. HOW IT WORKS */}
+      {/* 7. HOW IT WORKS */}
       <HowItWorksSection />
 
-      {/* 9. MARKET INSIGHTS */}
+      {/* 8. PREMIUM PROPERTY SHOWCASE */}
+      <PremiumShowcase />
+
+      {/* 9. RECENTLY ADDED */}
+      <RecentSlider />
+
+      {/* 10. MARKET INSIGHTS */}
       <MarketTrendsSection />
 
-      {/* 10. 3D PROPERTY EXPERIENCE */}
-      <StepInside3DSection />
-
-      {/* 11. EMI / MORTGAGE CALCULATOR */}
+      {/* 11. EMI / AFFORDABILITY CALCULATOR */}
       <MortgageCalculatorSection />
 
-      {/* 12. SERVICES */}
+      {/* 12. OUR SERVICES */}
       <ServicesSection />
 
-      {/* 13. CLIENT TESTIMONIALS */}
+      {/* 13. TESTIMONIALS */}
       <TestimonialsSection />
 
-      {/* 14. PROPERTY ENQUIRY / CONTACT */}
+      {/* 14. FINAL ENQUIRY CTA */}
       <FinalEnquirySection />
     </div>
   );

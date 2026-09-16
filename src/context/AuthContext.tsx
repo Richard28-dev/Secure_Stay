@@ -1,12 +1,14 @@
 import React, { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
 import type { UserProfile, UserRole } from '../types';
+import { api } from '../services/api';
 
 interface AuthContextType {
   user: UserProfile | null;
   isAuthenticated: boolean;
   isAgent: boolean;
   signIn: (email: string, password?: string, role?: UserRole) => Promise<boolean>;
-  signUp: (data: { name: string; email: string; role: UserRole; phone: string; agencyName?: string }) => Promise<boolean>;
+  signUp: (data: { name: string; email: string; password?: string; role: UserRole; phone: string; agencyName?: string }) => Promise<boolean>;
+  socialSignIn: (provider: 'google' | 'facebook', email: string, name?: string) => Promise<boolean>;
   signOut: () => void;
   switchRole: (role: UserRole) => void;
   demoLogin: (role: 'buyer' | 'agent') => void;
@@ -59,13 +61,28 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
       } else {
         localStorage.removeItem(STORAGE_KEY);
+        localStorage.removeItem('securestay_auth_token');
       }
     } catch (e) {
       console.error('Error persisting auth state:', e);
     }
   }, [user]);
 
-  const signIn = async (email: string, _password?: string, role: UserRole = 'buyer'): Promise<boolean> => {
+  const signIn = async (email: string, password?: string, role: UserRole = 'buyer'): Promise<boolean> => {
+    try {
+      const res = await api.auth.login(email, password);
+      if (res && res.user) {
+        setUser({
+          ...res.user,
+          role: role || res.user.role || 'buyer',
+          savedPropertyIds: res.user.savedProperties || res.user.savedPropertyIds || [],
+        });
+        return true;
+      }
+    } catch {
+      // Fallback
+    }
+
     const newUser: UserProfile = {
       id: `usr-${Date.now()}`,
       name: email.split('@')[0].replace('.', ' ').replace(/\b\w/g, (c) => c.toUpperCase()),
@@ -81,7 +98,34 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     return true;
   };
 
-  const signUp = async (data: { name: string; email: string; role: UserRole; phone: string; agencyName?: string }): Promise<boolean> => {
+  const signUp = async (data: {
+    name: string;
+    email: string;
+    password?: string;
+    role: UserRole;
+    phone: string;
+    agencyName?: string;
+  }): Promise<boolean> => {
+    try {
+      const res = await api.auth.register({
+        name: data.name,
+        email: data.email,
+        password: data.password || 'securestay123',
+        role: (data.role === 'admin' ? 'agent' : data.role),
+        phone: data.phone,
+        agencyName: data.agencyName,
+      });
+      if (res && res.user) {
+        setUser({
+          ...res.user,
+          savedPropertyIds: res.user.savedProperties || [],
+        });
+        return true;
+      }
+    } catch {
+      // Fallback
+    }
+
     const newUser: UserProfile = {
       id: `usr-${Date.now()}`,
       name: data.name,
@@ -95,6 +139,22 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       createdAt: new Date().toISOString().split('T')[0],
     };
     setUser(newUser);
+    return true;
+  };
+
+  const socialSignIn = async (provider: 'google' | 'facebook', email: string, name?: string): Promise<boolean> => {
+    try {
+      const res = await api.auth.socialAuth(provider, email, name);
+      if (res && res.user) {
+        setUser({
+          ...res.user,
+          savedPropertyIds: res.user.savedProperties || [],
+        });
+        return true;
+      }
+    } catch {
+      // Fallback
+    }
     return true;
   };
 
@@ -128,6 +188,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         isAgent: user?.role === 'agent' || user?.role === 'admin',
         signIn,
         signUp,
+        socialSignIn,
         signOut,
         switchRole,
         demoLogin,

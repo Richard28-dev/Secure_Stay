@@ -8,9 +8,11 @@ import PropertyCard from '../components/common/PropertyCard';
 export default function UserDashboardPage() {
   const { user, switchRole } = useAuth();
   const { savedProperties, viewings, enquiries } = useProperties();
-  const { navigate } = useRouter();
+  const { queryParams, navigate } = useRouter();
 
-  const [activeTab, setActiveTab] = useState<'saved' | 'viewings' | 'enquiries' | 'profile'>('saved');
+  const [activeTab, setActiveTab] = useState<'saved' | 'viewings' | 'enquiries' | 'profile'>(
+    (queryParams.tab as any) || 'saved'
+  );
 
   if (!user) {
     return (

@@ -1,32 +1,46 @@
 import React, { useState } from 'react';
-import { ShieldCheck, User, ArrowRight, Briefcase } from 'lucide-react';
+import { ShieldCheck, Lock, Mail, User, Phone, Building2, ArrowRight } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useRouter } from '../context/RouterContext';
 import { useProperties } from '../context/PropertyContext';
 import type { UserRole } from '../types';
 
 export default function SignUpPage() {
-  const { signUp } = useAuth();
+  const { signUp, socialSignIn } = useAuth();
   const { navigate } = useRouter();
   const { showToast } = useProperties();
 
-  const [role, setRole] = useState<UserRole>('buyer');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [role, setRole] = useState<UserRole>('buyer');
   const [agencyName, setAgencyName] = useState('');
   const [agreeTerms, setAgreeTerms] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name.trim() || !email.trim() || !phone.trim() || !password) {
-      showToast('Please fill all required account fields', 'error');
+
+    if (!name.trim()) {
+      showToast('Please enter your full name', 'error');
+      return;
+    }
+    if (!email.trim() || !email.includes('@')) {
+      showToast('Please enter a valid email address', 'error');
+      return;
+    }
+    if (!password || password.length < 6) {
+      showToast('Password must be at least 6 characters', 'error');
+      return;
+    }
+    if (password !== confirmPassword) {
+      showToast('Passwords do not match', 'error');
       return;
     }
     if (!agreeTerms) {
-      showToast('Please agree to terms & conditions', 'error');
+      showToast('Please agree to the Terms of Service & Privacy Policy', 'error');
       return;
     }
 
@@ -35,161 +49,265 @@ export default function SignUpPage() {
       await signUp({
         name: name.trim(),
         email: email.trim(),
-        phone: phone.trim(),
+        password,
         role,
-        agencyName: role === 'agent' ? agencyName.trim() : undefined,
+        phone: phone.trim() || '+91 98000 12345',
+        agencyName: role === 'agent' ? agencyName : undefined,
       });
-      showToast('Account created successfully. Email verification link generated.', 'success');
+
+      showToast(`Account created successfully as ${role === 'buyer' ? 'Client' : 'Agent'}`, 'success');
       navigate(role === 'agent' ? '/agent-dashboard' : '/dashboard');
+    } catch (err: any) {
+      showToast(err.message || 'Registration failed', 'error');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleSocialAuth = async (provider: 'google' | 'facebook') => {
+    setIsLoading(true);
+    try {
+      const demoEmail = provider === 'google' ? 'new.google.user@securestay.com' : 'new.facebook.user@securestay.com';
+      const demoName = provider === 'google' ? 'Google Client' : 'Facebook Client';
+      await socialSignIn(provider, demoEmail, demoName);
+      showToast(`Account created via ${provider === 'google' ? 'Google' : 'Facebook'} OAuth`, 'success');
+      navigate('/dashboard');
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="pt-28 pb-20 bg-[#FAF8F5] min-h-screen flex items-center justify-center">
-      <div className="container-luxury max-w-md w-full">
-        <div className="bg-[#FFFFFF] border border-[#E5E0D8] rounded-[8px] p-8 shadow-md">
+    <div className="pt-28 pb-20 bg-[#FDFBF7] min-h-screen flex items-center justify-center">
+      <div className="container-luxury max-w-lg w-full">
+        {/* Card */}
+        <div className="bg-white border border-[#E5DFD5] rounded-[8px] p-8 shadow-md">
           {/* Header */}
-          <div className="text-center mb-6">
+          <div className="text-center mb-8">
             <div
               onClick={() => navigate('/')}
               className="inline-flex items-center gap-2 cursor-pointer mb-3"
             >
-              <div className="w-8 h-8 rounded-[8px] bg-[#C5A880] flex items-center justify-center text-[#071710]">
+              <div className="w-8 h-8 rounded-[8px] bg-[#0A2A1D] flex items-center justify-center text-[#C5A880]">
                 <ShieldCheck size={18} strokeWidth={2.2} />
               </div>
-              <span className="text-[20px] font-extrabold tracking-tight text-[#1F2421] font-heading">
-                Secure<span className="text-[#0E2A1E]">Stay</span>
+              <span className="text-[20px] font-bold tracking-tight text-[#0A2A1D] font-heading">
+                SecureStay <span className="text-[#C5A880] font-normal text-[16px]">Real Estates</span>
               </span>
             </div>
-            <h1 className="text-[22px] font-bold text-[#1F2421] font-heading">
+            <h1 className="text-[22px] font-bold text-[#1A1E1C] font-heading">
               Create Your Account
             </h1>
-            <p className="text-[13px] text-[#5E6961] mt-1">
-              Join India's most trustworthy verified property registry.
+            <p className="text-[13px] text-[#57605B] mt-1">
+              Join thousands of discerning property buyers, sellers, and verified advisors.
             </p>
           </div>
 
-          {/* Role Choice */}
-          <div className="mb-6">
-            <label className="block text-[12px] font-semibold text-[#1F2421] mb-1.5">
-              Select Your Role
-            </label>
-            <div className="grid grid-cols-2 gap-2">
-              <button
-                type="button"
-                onClick={() => setRole('buyer')}
-                className={`py-2.5 rounded-[6px] text-[12.5px] font-medium border flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
-                  role === 'buyer'
-                    ? 'bg-[#0E2A1E] text-[#FAF8F5] border-[#0E2A1E] font-bold'
-                    : 'bg-[#FAF8F5] text-[#5E6961] border-[#E5E0D8]'
-                }`}
-              >
-                <User size={14} />
-                <span>Buyer / Renter</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setRole('agent')}
-                className={`py-2.5 rounded-[6px] text-[12.5px] font-medium border flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
-                  role === 'agent'
-                    ? 'bg-[#0E2A1E] text-[#FAF8F5] border-[#0E2A1E] font-bold'
-                    : 'bg-[#FAF8F5] text-[#5E6961] border-[#E5E0D8]'
-                }`}
-              >
-                <Briefcase size={14} />
-                <span>Agent / Owner</span>
-              </button>
-            </div>
+          {/* Social Signups */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-6">
+            <button
+              type="button"
+              onClick={() => handleSocialAuth('google')}
+              className="py-2.5 px-3 rounded-[6px] border border-[#E5DFD5] hover:border-[#0A2A1D] bg-[#FDFBF7] hover:bg-white text-[12.5px] font-semibold text-[#1A1E1C] flex items-center justify-center gap-2 transition-colors cursor-pointer"
+            >
+              <svg className="w-4 h-4" viewBox="0 0 24 24">
+                <path
+                  fill="#4285F4"
+                  d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                />
+                <path
+                  fill="#34A853"
+                  d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                />
+                <path
+                  fill="#FBBC05"
+                  d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"
+                />
+                <path
+                  fill="#EA4335"
+                  d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
+                />
+              </svg>
+              <span>Google Signup</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => handleSocialAuth('facebook')}
+              className="py-2.5 px-3 rounded-[6px] border border-[#E5DFD5] hover:border-[#0A2A1D] bg-[#FDFBF7] hover:bg-white text-[12.5px] font-semibold text-[#1A1E1C] flex items-center justify-center gap-2 transition-colors cursor-pointer"
+            >
+              <svg className="w-4 h-4 text-[#1877F2]" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+              </svg>
+              <span>Facebook Signup</span>
+            </button>
           </div>
 
+          <div className="relative flex items-center justify-center mb-6">
+            <div className="border-t border-[#E5DFD5] w-full" />
+            <span className="bg-white px-3 text-[11px] font-bold uppercase tracking-wider text-[#57605B] absolute">
+              or create with email
+            </span>
+          </div>
+
+          {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Role Selection */}
             <div>
-              <label className="block text-[12px] font-semibold text-[#1F2421] mb-1">
-                Full Legal Name *
+              <label className="block text-[12px] font-semibold text-[#1A1E1C] mb-1">
+                Account Intent
               </label>
-              <input
-                type="text"
-                required
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="e.g. Siddharth Verma"
-                className="w-full px-3.5 py-2.5 rounded-[8px] border border-[#E5E0D8] bg-[#FAF8F5] text-[13px] text-[#1F2421] focus:outline-none focus:border-[#0E2A1E]"
-              />
+              <div className="grid grid-cols-2 gap-2">
+                <button
+                  type="button"
+                  onClick={() => setRole('buyer')}
+                  className={`py-2 rounded-[6px] text-[12.5px] font-medium border text-center transition-all cursor-pointer ${
+                    role === 'buyer'
+                      ? 'bg-[#0A2A1D] text-[#FDFBF7] border-[#0A2A1D]'
+                      : 'bg-[#FDFBF7] text-[#57605B] border-[#E5DFD5]'
+                  }`}
+                >
+                  Buyer / Renter
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setRole('agent')}
+                  className={`py-2 rounded-[6px] text-[12.5px] font-medium border text-center transition-all cursor-pointer ${
+                    role === 'agent'
+                      ? 'bg-[#0A2A1D] text-[#FDFBF7] border-[#0A2A1D]'
+                      : 'bg-[#FDFBF7] text-[#57605B] border-[#E5DFD5]'
+                  }`}
+                >
+                  Property Agent / Advisor
+                </button>
+              </div>
             </div>
 
+            {/* Name */}
             <div>
-              <label className="block text-[12px] font-semibold text-[#1F2421] mb-1">
-                Email Address *
+              <label className="block text-[12px] font-semibold text-[#1A1E1C] mb-1">
+                Full Name *
               </label>
-              <input
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="siddharth@domain.com"
-                className="w-full px-3.5 py-2.5 rounded-[8px] border border-[#E5E0D8] bg-[#FAF8F5] text-[13px] text-[#1F2421] focus:outline-none focus:border-[#0E2A1E]"
-              />
-            </div>
-
-            <div>
-              <label className="block text-[12px] font-semibold text-[#1F2421] mb-1">
-                Phone Number *
-              </label>
-              <input
-                type="tel"
-                required
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                placeholder="+91 98450 12345"
-                className="w-full px-3.5 py-2.5 rounded-[8px] border border-[#E5E0D8] bg-[#FAF8F5] text-[13px] text-[#1F2421] focus:outline-none focus:border-[#0E2A1E]"
-              />
-            </div>
-
-            {role === 'agent' && (
-              <div>
-                <label className="block text-[12px] font-semibold text-[#1F2421] mb-1">
-                  Advisory Agency or Host Firm
-                </label>
+              <div className="relative flex items-center">
+                <User size={15} className="absolute left-3 text-[#57605B]" />
                 <input
                   type="text"
-                  value={agencyName}
-                  onChange={(e) => setAgencyName(e.target.value)}
-                  placeholder="e.g. Prime Realty Advisory"
-                  className="w-full px-3.5 py-2.5 rounded-[8px] border border-[#E5E0D8] bg-[#FAF8F5] text-[13px] text-[#1F2421] focus:outline-none focus:border-[#0E2A1E]"
+                  required
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="e.g. Arjun Patel"
+                  className="w-full pl-9 pr-3 py-2.5 rounded-[6px] border border-[#E5DFD5] bg-[#FDFBF7] text-[13px] text-[#1A1E1C] focus:outline-none focus:border-[#0A2A1D]"
                 />
+              </div>
+            </div>
+
+            {/* Email & Phone */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label className="block text-[12px] font-semibold text-[#1A1E1C] mb-1">
+                  Email Address *
+                </label>
+                <div className="relative flex items-center">
+                  <Mail size={15} className="absolute left-3 text-[#57605B]" />
+                  <input
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="arjun@domain.com"
+                    className="w-full pl-9 pr-3 py-2.5 rounded-[6px] border border-[#E5DFD5] bg-[#FDFBF7] text-[13px] text-[#1A1E1C] focus:outline-none focus:border-[#0A2A1D]"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-[12px] font-semibold text-[#1A1E1C] mb-1">
+                  Phone Number
+                </label>
+                <div className="relative flex items-center">
+                  <Phone size={15} className="absolute left-3 text-[#57605B]" />
+                  <input
+                    type="tel"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    placeholder="+91 98450 12345"
+                    className="w-full pl-9 pr-3 py-2.5 rounded-[6px] border border-[#E5DFD5] bg-[#FDFBF7] text-[13px] text-[#1A1E1C] focus:outline-none focus:border-[#0A2A1D]"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Agent Agency (Optional) */}
+            {role === 'agent' && (
+              <div>
+                <label className="block text-[12px] font-semibold text-[#1A1E1C] mb-1">
+                  Agency / Advisory Firm Name
+                </label>
+                <div className="relative flex items-center">
+                  <Building2 size={15} className="absolute left-3 text-[#57605B]" />
+                  <input
+                    type="text"
+                    value={agencyName}
+                    onChange={(e) => setAgencyName(e.target.value)}
+                    placeholder="e.g. Prestige Advisory Group"
+                    className="w-full pl-9 pr-3 py-2.5 rounded-[6px] border border-[#E5DFD5] bg-[#FDFBF7] text-[13px] text-[#1A1E1C] focus:outline-none focus:border-[#0A2A1D]"
+                  />
+                </div>
               </div>
             )}
 
-            <div>
-              <label className="block text-[12px] font-semibold text-[#1F2421] mb-1">
-                Password *
-              </label>
-              <input
-                type="password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Minimum 8 characters"
-                className="w-full px-3.5 py-2.5 rounded-[8px] border border-[#E5E0D8] bg-[#FAF8F5] text-[13px] text-[#1F2421] focus:outline-none focus:border-[#0E2A1E]"
-              />
+            {/* Password & Confirm Password */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label className="block text-[12px] font-semibold text-[#1A1E1C] mb-1">
+                  Password *
+                </label>
+                <div className="relative flex items-center">
+                  <Lock size={15} className="absolute left-3 text-[#57605B]" />
+                  <input
+                    type="password"
+                    required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Min 6 characters"
+                    className="w-full pl-9 pr-3 py-2.5 rounded-[6px] border border-[#E5DFD5] bg-[#FDFBF7] text-[13px] text-[#1A1E1C] focus:outline-none focus:border-[#0A2A1D]"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-[12px] font-semibold text-[#1A1E1C] mb-1">
+                  Confirm Password *
+                </label>
+                <div className="relative flex items-center">
+                  <Lock size={15} className="absolute left-3 text-[#57605B]" />
+                  <input
+                    type="password"
+                    required
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    placeholder="Repeat password"
+                    className="w-full pl-9 pr-3 py-2.5 rounded-[6px] border border-[#E5DFD5] bg-[#FDFBF7] text-[13px] text-[#1A1E1C] focus:outline-none focus:border-[#0A2A1D]"
+                  />
+                </div>
+              </div>
             </div>
 
+            {/* Terms Agreement */}
             <div>
-              <label className="flex items-start gap-2 cursor-pointer">
+              <label className="flex items-start gap-2.5 cursor-pointer">
                 <input
                   type="checkbox"
                   checked={agreeTerms}
                   onChange={(e) => setAgreeTerms(e.target.checked)}
-                  className="mt-1 w-4 h-4 text-[#0E2A1E] rounded focus:ring-[#0E2A1E]"
+                  className="mt-0.5 w-4 h-4 text-[#0A2A1D] rounded border-[#E5DFD5] focus:ring-[#0A2A1D]"
                 />
-                <span className="text-[11.5px] text-[#5E6961]">
-                  I agree to the SecureStay{' '}
+                <span className="text-[12px] text-[#57605B] leading-snug">
+                  I agree to the{' '}
                   <button
                     type="button"
                     onClick={() => navigate('/terms')}
-                    className="text-[#0E2A1E] font-semibold underline"
+                    className="text-[#0A2A1D] font-semibold underline hover:text-[#133D2B]"
                   >
                     Terms of Service
                   </button>{' '}
@@ -197,7 +315,7 @@ export default function SignUpPage() {
                   <button
                     type="button"
                     onClick={() => navigate('/privacy')}
-                    className="text-[#0E2A1E] font-semibold underline"
+                    className="text-[#0A2A1D] font-semibold underline hover:text-[#133D2B]"
                   >
                     Privacy Policy
                   </button>
@@ -209,18 +327,19 @@ export default function SignUpPage() {
             <button
               type="submit"
               disabled={isLoading}
-              className="btn-forest w-full py-3 text-[13.5px] rounded-[8px] flex items-center justify-center gap-2 cursor-pointer shadow-md mt-2"
+              className="btn-forest w-full py-3 text-[13.5px] rounded-[8px] flex items-center justify-center gap-2 cursor-pointer shadow-sm mt-2"
             >
-              <span>Create Verified Account</span>
+              <span>Create Account</span>
               <ArrowRight size={15} />
             </button>
           </form>
 
-          <div className="text-center pt-6 mt-6 border-t border-[#E5E0D8] text-[12.5px] text-[#5E6961]">
-            <span>Already registered? </span>
+          {/* Bottom */}
+          <div className="text-center pt-6 mt-6 border-t border-[#E5DFD5] text-[12.5px] text-[#57605B]">
+            <span>Already have an account? </span>
             <button
               onClick={() => navigate('/signin')}
-              className="text-[#0E2A1E] font-bold hover:underline cursor-pointer"
+              className="text-[#0A2A1D] font-bold hover:underline cursor-pointer"
             >
               Sign In
             </button>

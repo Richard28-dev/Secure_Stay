@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
 import type { Property, EnquirySubmission, ViewingAppointment, FilterState } from '../types';
 import { initialProperties } from '../data/properties';
+import { api } from '../services/api';
 
 interface ToastMessage {
   id: string;
@@ -17,20 +18,21 @@ interface PropertyContextType {
   enquiries: EnquirySubmission[];
   viewings: ViewingAppointment[];
   toasts: ToastMessage[];
+  isLoading: boolean;
   toggleSaveProperty: (id: string) => void;
   isSaved: (id: string) => boolean;
   toggleCompareProperty: (id: string) => void;
   isCompared: (id: string) => boolean;
   clearCompare: () => void;
   getPropertyById: (id: string) => Property | undefined;
-  addProperty: (property: Omit<Property, 'id' | 'slug'>) => Property;
-  updateProperty: (id: string, updates: Partial<Property>) => void;
-  deleteProperty: (id: string) => void;
-  archiveProperty: (id: string) => void;
+  addProperty: (property: Omit<Property, 'id' | 'slug'>) => Promise<Property>;
+  updateProperty: (id: string, updates: Partial<Property>) => Promise<void>;
+  deleteProperty: (id: string) => Promise<void>;
+  archiveProperty: (id: string) => Promise<void>;
   addEnquiry: (enquiry: Omit<EnquirySubmission, 'id' | 'createdAt' | 'status'>) => Promise<boolean>;
   addViewing: (viewing: Omit<ViewingAppointment, 'id' | 'createdAt' | 'status'>) => Promise<boolean>;
-  updateViewingStatus: (id: string, status: ViewingAppointment['status']) => void;
-  updateEnquiryStatus: (id: string, status: EnquirySubmission['status']) => void;
+  updateViewingStatus: (id: string, status: ViewingAppointment['status']) => Promise<void>;
+  updateEnquiryStatus: (id: string, status: EnquirySubmission['status']) => Promise<void>;
   showToast: (message: string, type?: 'success' | 'info' | 'error') => void;
   removeToast: (id: string) => void;
   filterProperties: (filters: Partial<FilterState>) => Property[];
@@ -67,6 +69,7 @@ export const PropertyProvider: React.FC<{ children: ReactNode }> = ({ children }
   });
 
   const [comparePropertyIds, setComparePropertyIds] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [enquiries, setEnquiries] = useState<EnquirySubmission[]>(() => {
     try {
@@ -124,6 +127,41 @@ export const PropertyProvider: React.FC<{ children: ReactNode }> = ({ children }
 
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
 
+  // Initial fetch from backend REST API
+  useEffect(() => {
+    const fetchInitialData = async () => {
+      try {
+        setIsLoading(true);
+        const [propsData, enqData, viewData, savedData] = await Promise.allSettled([
+          api.properties.getAll(),
+          api.enquiries.getAll(),
+          api.appointments.getAll(),
+          api.saved.getSaved(),
+        ]);
+
+        if (propsData.status === 'fulfilled' && propsData.value.length > 0) {
+          setProperties(propsData.value);
+        }
+        if (enqData.status === 'fulfilled' && enqData.value.length > 0) {
+          setEnquiries(enqData.value);
+        }
+        if (viewData.status === 'fulfilled' && viewData.value.length > 0) {
+          setViewings(viewData.value);
+        }
+        if (savedData.status === 'fulfilled' && savedData.value.length > 0) {
+          setSavedPropertyIds(savedData.value);
+        }
+      } catch (err) {
+        console.error('Initial data sync error:', err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchInitialData();
+  }, []);
+
+  // Sync to local storage
   useEffect(() => {
     try {
       localStorage.setItem(PROPERTIES_KEY, JSON.stringify(properties));
@@ -168,17 +206,17 @@ export const PropertyProvider: React.FC<{ children: ReactNode }> = ({ children }
     setToasts((prev) => prev.filter((t) => t.id !== id));
   };
 
-  const toggleSaveProperty = (id: string) => {
-    setSavedPropertyIds((prev) => {
-      const isAlreadySaved = prev.includes(id);
-      if (isAlreadySaved) {
-        showToast('Property removed from saved collection', 'info');
-        return prev.filter((item) => item !== id);
-      } else {
-        showToast('Property added to saved collection', 'success');
-        return [...prev, id];
-      }
-    });
+  const toggleSaveProperty = async (id: string) => {
+    const isAlreadySaved = savedPropertyIds.includes(id);
+    if (isAlreadySaved) {
+      setSavedPropertyIds((prev) => prev.filter((item) => item !== id));
+      showToast('Property removed from saved collection', 'info');
+      await api.saved.remove(id);
+    } else {
+      setSavedPropertyIds((prev) => [...prev, id]);
+      showToast('Property added to saved collection', 'success');
+      await api.saved.save(id);
+    }
   };
 
   const isSaved = (id: string) => savedPropertyIds.includes(id);
@@ -209,42 +247,34 @@ export const PropertyProvider: React.FC<{ children: ReactNode }> = ({ children }
     return properties.find((p) => p.id === id || p.slug === id);
   };
 
-  const addProperty = (data: Omit<Property, 'id' | 'slug'>): Property => {
-    const id = `prop-${Date.now()}`;
-    const slug = data.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-    const newProperty: Property = {
-      ...data,
-      id,
-      slug,
-    };
-    setProperties((prev) => [newProperty, ...prev]);
+  const addProperty = async (data: Omit<Property, 'id' | 'slug'>): Promise<Property> => {
+    const newProp = await api.properties.create(data);
+    setProperties((prev) => [newProp, ...prev]);
     showToast('Listing successfully published to SecureStay registry', 'success');
-    return newProperty;
+    return newProp;
   };
 
-  const updateProperty = (id: string, updates: Partial<Property>) => {
-    setProperties((prev) =>
-      prev.map((p) => (p.id === id ? { ...p, ...updates } : p))
-    );
+  const updateProperty = async (id: string, updates: Partial<Property>) => {
+    setProperties((prev) => prev.map((p) => (p.id === id ? { ...p, ...updates } : p)));
+    await api.properties.update(id, updates);
     showToast('Listing details updated successfully', 'success');
   };
 
-  const deleteProperty = (id: string) => {
+  const deleteProperty = async (id: string) => {
     setProperties((prev) => prev.filter((p) => p.id !== id));
+    await api.properties.delete(id);
     showToast('Listing removed from registry', 'info');
   };
 
-  const archiveProperty = (id: string) => {
-    setProperties((prev) =>
-      prev.map((p) => (p.id === id ? { ...p, status: 'archived' } : p))
-    );
+  const archiveProperty = async (id: string) => {
+    setProperties((prev) => prev.map((p) => (p.id === id ? { ...p, status: 'archived' } : p)));
+    await api.properties.update(id, { status: 'archived' });
     showToast('Listing marked as archived', 'info');
   };
 
   const addEnquiry = async (
     enquiryData: Omit<EnquirySubmission, 'id' | 'createdAt' | 'status'>
   ): Promise<boolean> => {
-    await new Promise((r) => setTimeout(r, 600));
     const newEnquiry: EnquirySubmission = {
       ...enquiryData,
       id: `enq-${Date.now()}`,
@@ -252,6 +282,7 @@ export const PropertyProvider: React.FC<{ children: ReactNode }> = ({ children }
       status: 'new',
     };
     setEnquiries((prev) => [newEnquiry, ...prev]);
+    await api.enquiries.create(enquiryData);
     showToast('Your enquiry has been securely logged. An advisor will contact you within 24 hours.', 'success');
     return true;
   };
@@ -259,7 +290,6 @@ export const PropertyProvider: React.FC<{ children: ReactNode }> = ({ children }
   const addViewing = async (
     viewingData: Omit<ViewingAppointment, 'id' | 'createdAt' | 'status'>
   ): Promise<boolean> => {
-    await new Promise((r) => setTimeout(r, 600));
     const newViewing: ViewingAppointment = {
       ...viewingData,
       id: `vw-${Date.now()}`,
@@ -267,21 +297,20 @@ export const PropertyProvider: React.FC<{ children: ReactNode }> = ({ children }
       status: 'confirmed',
     };
     setViewings((prev) => [newViewing, ...prev]);
+    await api.appointments.create(viewingData);
     showToast(`Viewing appointment confirmed for ${viewingData.date} at ${viewingData.time}`, 'success');
     return true;
   };
 
-  const updateViewingStatus = (id: string, status: ViewingAppointment['status']) => {
-    setViewings((prev) =>
-      prev.map((v) => (v.id === id ? { ...v, status } : v))
-    );
+  const updateViewingStatus = async (id: string, status: ViewingAppointment['status']) => {
+    setViewings((prev) => prev.map((v) => (v.id === id ? { ...v, status } : v)));
+    await api.appointments.updateStatus(id, status);
     showToast(`Appointment status updated to ${status}`, 'info');
   };
 
-  const updateEnquiryStatus = (id: string, status: EnquirySubmission['status']) => {
-    setEnquiries((prev) =>
-      prev.map((e) => (e.id === id ? { ...e, status } : e))
-    );
+  const updateEnquiryStatus = async (id: string, status: EnquirySubmission['status']) => {
+    setEnquiries((prev) => prev.map((e) => (e.id === id ? { ...e, status } : e)));
+    await api.enquiries.updateStatus(id, status);
     showToast(`Enquiry status updated to ${status}`, 'info');
   };
 
@@ -294,7 +323,9 @@ export const PropertyProvider: React.FC<{ children: ReactNode }> = ({ children }
       }
 
       if (filters.city && filters.city !== 'All Cities' && filters.city !== '') {
-        if (!item.city.toLowerCase().includes(filters.city.toLowerCase())) return false;
+        if (!item.city.toLowerCase().includes(filters.city.toLowerCase()) && !item.location.toLowerCase().includes(filters.city.toLowerCase())) {
+          return false;
+        }
       }
 
       if (filters.type && filters.type !== 'All Types' && filters.type !== '') {
@@ -340,6 +371,7 @@ export const PropertyProvider: React.FC<{ children: ReactNode }> = ({ children }
         enquiries,
         viewings,
         toasts,
+        isLoading,
         toggleSaveProperty,
         isSaved,
         toggleCompareProperty,
@@ -367,10 +399,10 @@ export const PropertyProvider: React.FC<{ children: ReactNode }> = ({ children }
             key={toast.id}
             className={`pointer-events-auto px-4 py-3.5 rounded-[8px] text-[13px] font-medium shadow-xl border flex items-center justify-between gap-3 transition-all duration-300 animate-fadeIn ${
               toast.type === 'success'
-                ? 'bg-[#0E2A1E] text-[#FAF8F5] border-[#163A29]'
+                ? 'bg-[#0A2A1D] text-[#FDFBF7] border-[#133D2B]'
                 : toast.type === 'error'
-                ? 'bg-[#842029] text-[#FAF8F5] border-[#58151c]'
-                : 'bg-[#1F2421] text-[#FAF8F5] border-[#36403A]'
+                ? 'bg-[#842029] text-[#FDFBF7] border-[#58151c]'
+                : 'bg-[#1A1E1C] text-[#FDFBF7] border-[#2A302D]'
             }`}
           >
             <span>{toast.message}</span>

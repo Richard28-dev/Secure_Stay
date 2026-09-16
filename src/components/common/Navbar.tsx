@@ -150,40 +150,56 @@ export default function Navbar() {
 
               {/* Profile Dropdown */}
               {userDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-56 bg-white border border-[#E5E0D8] rounded-[8px] shadow-xl py-2 z-50 animate-fadeIn">
-                  <div className="px-4 py-2 border-b border-[#E5E0D8]">
-                    <p className="text-[13px] font-bold text-[#1A1C1A] leading-tight">{user.name}</p>
-                    <p className="text-[11px] text-[#5A605B] truncate">{user.email}</p>
+                <div className="absolute right-0 mt-2 w-60 bg-white border border-[#E5DFD5] rounded-[8px] shadow-xl py-2 z-50 animate-fadeIn">
+                  <div className="px-4 py-2.5 border-b border-[#E5DFD5]">
+                    <p className="text-[13px] font-bold text-[#1A1E1C] leading-tight">{user.name}</p>
+                    <p className="text-[11px] text-[#57605B] truncate">{user.email}</p>
                   </div>
 
                   <div className="py-1">
                     <button
                       onClick={() => handleNav('/dashboard')}
-                      className="w-full px-4 py-2 text-[13px] text-left text-[#1A1C1A] hover:bg-[#FAF8F5] flex items-center gap-2.5 cursor-pointer"
+                      className="w-full px-4 py-2 text-[13px] text-left text-[#1A1E1C] hover:bg-[#FDFBF7] flex items-center gap-2.5 cursor-pointer"
                     >
-                      <LayoutDashboard size={15} className="text-[#0E2A1E]" />
-                      <span>User Dashboard</span>
+                      <LayoutDashboard size={15} className="text-[#0A2A1D]" />
+                      <span>Dashboard</span>
                     </button>
 
                     <button
-                      onClick={() => handleNav('/agent-dashboard')}
-                      className="w-full px-4 py-2 text-[13px] text-left text-[#1A1C1A] hover:bg-[#FAF8F5] flex items-center gap-2.5 cursor-pointer"
+                      onClick={() => handleNav('/dashboard?tab=profile')}
+                      className="w-full px-4 py-2 text-[13px] text-left text-[#1A1E1C] hover:bg-[#FDFBF7] flex items-center gap-2.5 cursor-pointer"
                     >
-                      <Briefcase size={15} className="text-[#0E2A1E]" />
-                      <span>Agent Portal</span>
+                      <ShieldCheck size={15} className="text-[#0A2A1D]" />
+                      <span>My Profile</span>
                     </button>
 
                     <button
                       onClick={() => handleNav('/saved')}
-                      className="w-full px-4 py-2 text-[13px] text-left text-[#1A1C1A] hover:bg-[#FAF8F5] flex items-center gap-2.5 cursor-pointer"
+                      className="w-full px-4 py-2 text-[13px] text-left text-[#1A1E1C] hover:bg-[#FDFBF7] flex items-center gap-2.5 cursor-pointer"
                     >
-                      <Heart size={15} className="text-[#0E2A1E]" />
-                      <span>Saved ({savedPropertyIds.length})</span>
+                      <Heart size={15} className="text-[#0A2A1D]" />
+                      <span>Saved Properties ({savedPropertyIds.length})</span>
+                    </button>
+
+                    <button
+                      onClick={() => handleNav('/dashboard?tab=enquiries')}
+                      className="w-full px-4 py-2 text-[13px] text-left text-[#1A1E1C] hover:bg-[#FDFBF7] flex items-center gap-2.5 cursor-pointer"
+                    >
+                      <Briefcase size={15} className="text-[#0A2A1D]" />
+                      <span>My Enquiries</span>
+                    </button>
+
+                    <button
+                      onClick={() => handleNav('/dashboard?tab=viewings')}
+                      className="w-full px-4 py-2 text-[13px] text-left text-[#1A1E1C] hover:bg-[#FDFBF7] flex items-center gap-2.5 cursor-pointer"
+                    >
+                      <PlusCircle size={15} className="text-[#0A2A1D]" />
+                      <span>My Appointments</span>
                     </button>
 
                     {/* Role Switcher */}
-                    <div className="px-4 py-2 border-t border-[#E5E0D8] mt-1">
-                      <span className="text-[10px] uppercase font-bold text-[#5A605B] tracking-wider block mb-1">
+                    <div className="px-4 py-2 border-t border-[#E5DFD5] mt-1">
+                      <span className="text-[10px] uppercase font-bold text-[#57605B] tracking-wider block mb-1">
                         Active Role
                       </span>
                       <div className="flex gap-1.5">
@@ -191,8 +207,8 @@ export default function Navbar() {
                           onClick={() => switchRole('buyer')}
                           className={`flex-1 py-1 rounded-[4px] text-[11px] font-medium transition-all ${
                             user.role === 'buyer'
-                              ? 'bg-[#0E2A1E] text-white font-bold'
-                              : 'bg-[#F3EFEA] text-[#5A605B] hover:bg-[#E8EFE8]'
+                              ? 'bg-[#0A2A1D] text-white font-bold'
+                              : 'bg-[#F4EFE6] text-[#57605B] hover:bg-[#E4ECE7]'
                           }`}
                         >
                           Buyer
@@ -201,8 +217,8 @@ export default function Navbar() {
                           onClick={() => switchRole('agent')}
                           className={`flex-1 py-1 rounded-[4px] text-[11px] font-medium transition-all ${
                             user.role === 'agent'
-                              ? 'bg-[#0E2A1E] text-white font-bold'
-                              : 'bg-[#F3EFEA] text-[#5A605B] hover:bg-[#E8EFE8]'
+                              ? 'bg-[#0A2A1D] text-white font-bold'
+                              : 'bg-[#F4EFE6] text-[#57605B] hover:bg-[#E4ECE7]'
                           }`}
                         >
                           Agent
@@ -211,7 +227,7 @@ export default function Navbar() {
                     </div>
                   </div>
 
-                  <div className="border-t border-[#E5E0D8] pt-1">
+                  <div className="border-t border-[#E5DFD5] pt-1">
                     <button
                       onClick={() => {
                         signOut();
@@ -220,7 +236,7 @@ export default function Navbar() {
                       className="w-full px-4 py-2 text-[13px] text-left text-[#DC2626] hover:bg-red-50 flex items-center gap-2.5 cursor-pointer font-medium"
                     >
                       <LogOut size={15} />
-                      <span>Sign Out</span>
+                      <span>Logout</span>
                     </button>
                   </div>
                 </div>
