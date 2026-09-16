@@ -1,7 +1,13 @@
 # SecureStay Real Estates
 
 > **Verified Luxury Residences & Prime Commercial Estates**  
-> A production-grade real estate web application built with React, Node.js, Express.js, and MongoDB.
+> A production-grade real estate web application built with React, Node.js, Express.js, Three.js, and MongoDB.
+
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Click%20Here-16A34A?style=for-the-badge&logo=googlechrome&logoColor=white)](https://richard28-dev.github.io/Secure_Stay/)
+[![GitHub Repo](https://img.shields.io/badge/GitHub-Repository-0E2A1E?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Richard28-dev/Secure_Stay)
+
+### 🌐 Working Live URL
+👉 **[https://richard28-dev.github.io/Secure_Stay/](https://richard28-dev.github.io/Secure_Stay/)**
 
 ---
 
