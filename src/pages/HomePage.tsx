@@ -2,7 +2,6 @@ import HeroSection from '../components/home/HeroSection';
 import TrustStats from '../components/home/TrustStats';
 import FeaturedSection from '../components/home/FeaturedSection';
 import CuratedCollections from '../components/home/CuratedCollections';
-import Architectural3DShowcase from '../components/home/Architectural3DShowcase';
 import MarketTrendsSection from '../components/home/MarketTrendsSection';
 import MortgageCalculatorSection from '../components/home/MortgageCalculatorSection';
 import ServicesSection from '../components/home/ServicesSection';
@@ -18,7 +17,6 @@ export default function HomePage() {
       <TrustStats />
       <FeaturedSection />
       <CuratedCollections />
-      <Architectural3DShowcase />
       <MarketTrendsSection />
       <MortgageCalculatorSection />
       <ServicesSection />
