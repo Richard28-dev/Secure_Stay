@@ -23,7 +23,9 @@ export default function Navbar() {
 
   const navLinks = [
     { label: 'Home', path: '/' },
-    { label: 'Properties', path: '/buy' },
+    { label: 'Properties', path: '/search' },
+    { label: 'Buy', path: '/buy' },
+    { label: 'Rent', path: '/rent' },
     { label: 'About', path: '/about' },
     { label: 'Services', path: '/#services' },
     { label: 'Contact', path: '/contact' },

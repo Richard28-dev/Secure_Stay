@@ -43,7 +43,7 @@ export default function FeaturedSection() {
               Featured Properties
             </h2>
             <p className="text-[15px] text-[#5A605B] mt-2 max-w-xl font-normal">
-              Explore some of our selected properties.
+              Explore carefully selected properties verified by SecureStay.
             </p>
           </div>
 

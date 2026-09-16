@@ -3,14 +3,8 @@ import { Award, Building2, Users2, MapPin } from 'lucide-react';
 export default function TrustStats() {
   const stats = [
     {
-      value: '10+',
-      label: 'Years of Experience',
-      sublabel: 'Established real estate advisory & property management',
-      icon: Award,
-    },
-    {
       value: '500+',
-      label: 'Properties',
+      label: 'Verified Properties',
       sublabel: '100% physically inspected & title verified',
       icon: Building2,
     },
@@ -25,6 +19,12 @@ export default function TrustStats() {
       label: 'Locations',
       sublabel: 'Across Bangalore, Hyderabad, Goa & Mumbai',
       icon: MapPin,
+    },
+    {
+      value: '10+',
+      label: 'Years of Experience',
+      sublabel: 'Established real estate advisory & property management',
+      icon: Award,
     },
   ];
 

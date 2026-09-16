@@ -1,4 +1,4 @@
-import { ArrowRight, Sparkles, Building2, Trees, Compass, ShieldCheck } from 'lucide-react';
+import { ArrowRight, Sparkles, Building2, Trees, Compass, TrendingUp, ShieldCheck } from 'lucide-react';
 import { useRouter } from '../../context/RouterContext';
 
 export default function CuratedCollections() {
@@ -9,8 +9,8 @@ export default function CuratedCollections() {
       id: 'luxury-villas',
       category: 'Signature Estates',
       title: 'Gated Private Villas',
-      subtitle: 'Standalone residences with private landscaped gardens, swimming pools & 24/7 security in serene suburbs.',
-      image: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=85',
+      subtitle: 'Standalone residences with private gardens, swimming pools & 24/7 security.',
+      image: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1000&q=85',
       count: '42 Verified Villas',
       priceFrom: 'From ₹2.10 Cr',
       filterType: 'Villa',
@@ -18,11 +18,23 @@ export default function CuratedCollections() {
       highlights: ['Private Garden & Pool', 'Zero Common Walls', 'Dedicated Parking'],
     },
     {
+      id: 'modern-apartments',
+      category: 'Urban Living',
+      title: 'Premium City Apartments',
+      subtitle: 'Thoughtfully designed 2 & 3 BHK residences located in major tech corridors.',
+      image: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1000&q=85',
+      count: '115 Available Homes',
+      priceFrom: 'From ₹78 Lakhs',
+      filterType: 'Apartment',
+      icon: Compass,
+      highlights: ['Clubhouse & Gym', 'Near Metro Corridors', 'High Rental Yield'],
+    },
+    {
       id: 'sky-penthouses',
       category: 'High-Rise Living',
-      title: 'Sky Penthouses & Duplexes',
-      subtitle: 'Panoramic skyline views, double-height ceilings, private elevator foyers & wraparound terraces.',
-      image: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=85',
+      title: 'Luxury Penthouses',
+      subtitle: 'Panoramic skyline views, double-height ceilings & private elevator foyers.',
+      image: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1000&q=85',
       count: '28 Prime Residences',
       priceFrom: 'From ₹3.85 Cr',
       filterType: 'Penthouse',
@@ -30,16 +42,16 @@ export default function CuratedCollections() {
       highlights: ['270° City Panorama', 'Private Sky Deck', 'Concierge Access'],
     },
     {
-      id: 'modern-apartments',
-      category: 'Urban Living',
-      title: 'Premium City Apartments',
-      subtitle: 'Thoughtfully designed 2 & 3 BHK residences located in major tech corridors with full clubhouse amenities.',
-      image: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=85',
-      count: '115 Available Homes',
-      priceFrom: 'From ₹78 Lakhs',
+      id: 'investment-properties',
+      category: 'High-Yield Assets',
+      title: 'Investment Properties',
+      subtitle: 'High-capital-growth corridors, commercial assets & assured rental return properties.',
+      image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=85',
+      count: '34 High-Yield Assets',
+      priceFrom: 'From ₹1.45 Cr',
       filterType: 'Apartment',
-      icon: Compass,
-      highlights: ['Clubhouse & Gym', 'Near Metro Corridors', 'High Rental Yield'],
+      icon: TrendingUp,
+      highlights: ['6-8% Rental Yield', 'Pre-Leased Options', 'High Appreciation'],
     },
   ];
 
@@ -54,7 +66,7 @@ export default function CuratedCollections() {
               <span>Editorial Portfolios</span>
             </div>
             <h2 className="text-3xl sm:text-4xl font-bold text-[#1A1C1A] font-heading tracking-tight">
-              Curated Property Collections
+              Explore Our Collections
             </h2>
             <p className="text-[15px] text-[#5A605B] mt-2 max-w-xl font-normal">
               Handpicked portfolios organized by lifestyle, architectural character, and prime residential zones.
@@ -70,8 +82,8 @@ export default function CuratedCollections() {
           </button>
         </div>
 
-        {/* 3-Column Magazine Style Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {/* 4-Column Magazine Style Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {collections.map((item) => {
             const Icon = item.icon;
             return (
@@ -99,26 +111,26 @@ export default function CuratedCollections() {
                   </div>
 
                   {/* Bottom Image Stats */}
-                  <div className="absolute bottom-3.5 left-3.5 right-3.5 flex items-center justify-between text-[#FAF8F5] text-[12.5px] font-medium z-10">
+                  <div className="absolute bottom-3.5 left-3.5 right-3.5 flex items-center justify-between text-[#FAF8F5] text-[12px] font-medium z-10">
                     <span>{item.count}</span>
-                    <span className="font-bold text-[#C5A880] text-[13px]">{item.priceFrom}</span>
+                    <span className="font-bold text-[#C5A880] text-[12.5px]">{item.priceFrom}</span>
                   </div>
                 </div>
 
                 {/* Content Body */}
-                <div className="p-6 sm:p-7 flex-1 flex flex-col justify-between">
+                <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between">
                   <div>
-                    <h3 className="text-[20px] font-bold text-[#1A1C1A] group-hover:text-[#0E2A1E] transition-colors leading-snug font-heading mb-2">
+                    <h3 className="text-[18px] font-bold text-[#1A1C1A] group-hover:text-[#0E2A1E] transition-colors leading-snug font-heading mb-2">
                       {item.title}
                     </h3>
-                    <p className="text-[13.5px] text-[#5A605B] leading-relaxed mb-5">
+                    <p className="text-[13px] text-[#5A605B] leading-relaxed mb-4">
                       {item.subtitle}
                     </p>
 
                     {/* Quick Highlights */}
-                    <div className="space-y-1.5 mb-6">
+                    <div className="space-y-1.5 mb-5">
                       {item.highlights.map((h, i) => (
-                        <div key={i} className="flex items-center gap-2 text-[12px] text-[#1A1C1A] font-medium">
+                        <div key={i} className="flex items-center gap-2 text-[11.5px] text-[#1A1C1A] font-medium">
                           <span className="w-1.5 h-1.5 rounded-full bg-[#0E2A1E]" />
                           <span>{h}</span>
                         </div>
@@ -126,12 +138,12 @@ export default function CuratedCollections() {
                     </div>
                   </div>
 
-                  <div className="pt-4 border-t border-[#E5E0D8] flex items-center justify-between">
-                    <span className="text-[13px] font-semibold text-[#0E2A1E] group-hover:underline">
-                      Explore {item.title}
+                  <div className="pt-3.5 border-t border-[#E5E0D8] flex items-center justify-between">
+                    <span className="text-[12.5px] font-semibold text-[#0E2A1E] group-hover:underline">
+                      Explore Collection
                     </span>
-                    <div className="w-8 h-8 rounded-[6px] bg-[#E8EFE8] group-hover:bg-[#0E2A1E] group-hover:text-white text-[#0E2A1E] flex items-center justify-center transition-colors">
-                      <ArrowRight size={14} />
+                    <div className="w-7 h-7 rounded-[6px] bg-[#E8EFE8] group-hover:bg-[#0E2A1E] group-hover:text-white text-[#0E2A1E] flex items-center justify-center transition-colors">
+                      <ArrowRight size={13} />
                     </div>
                   </div>
                 </div>

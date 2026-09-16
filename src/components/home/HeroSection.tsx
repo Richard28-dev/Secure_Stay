@@ -72,17 +72,17 @@ export default function HeroSection() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center mb-12 lg:mb-16">
           {/* Left Editorial Copy */}
           <div className="lg:col-span-6 space-y-6">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-[6px] bg-[#E4ECE7] border border-[#0A2A1D]/15 text-[#0A2A1D] text-[12px] font-semibold tracking-wide">
-              <ShieldCheck size={16} className="text-[#0A2A1D]" />
-              <span>100% Verified Real Estate & Clear Title Assurance</span>
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-[6px] bg-[#E4ECE7] border border-[#0A2A1D]/15 text-[#0A2A1D] text-[12px] font-bold uppercase tracking-wider">
+              <ShieldCheck size={15} className="text-[#0A2A1D]" />
+              <span>Verified Real Estate</span>
             </div>
 
             <h1 className="text-4xl sm:text-5xl lg:text-[3.5rem] font-bold text-[#1A1E1C] tracking-tight leading-[1.1] font-heading">
-              Find a place that <span className="text-[#0A2A1D]">feels secure.</span>
+              Find a place <br className="hidden sm:inline" />that <span className="text-[#0A2A1D]">feels like home.</span>
             </h1>
 
             <p className="text-[17px] text-[#57605B] leading-relaxed max-w-xl font-normal">
-              Verified homes, trusted professionals, and clearer decisions — all in one place.
+              Verified properties, trusted professionals and a simpler way to find your next home or investment.
             </p>
 
             {/* Direct CTA Buttons */}
