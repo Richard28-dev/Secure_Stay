@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Search, MapPin, Home, IndianRupee, ArrowRight, ShieldCheck, PhoneCall, Sparkles, Bed } from 'lucide-react';
 import { useRouter } from '../../context/RouterContext';
+import heroBgImage from '../../assets/images/luxury-terrace-hero-bg.jpg';
 
 export default function HeroSection() {
   const { navigate } = useRouter();
@@ -51,7 +52,21 @@ export default function HeroSection() {
   };
 
   return (
-    <section className="relative w-full pt-28 pb-16 lg:pt-36 lg:pb-24 overflow-hidden bg-[#FDFBF7]">
+    <section className="relative w-full pt-28 pb-16 lg:pt-36 lg:pb-24 overflow-hidden bg-[#FAF8F5]">
+      {/* Photorealistic Luxury Residence Terrace & Cityscape Background */}
+      <div
+        className="absolute inset-0 bg-cover bg-center transition-all duration-1000 pointer-events-none"
+        style={{
+          backgroundImage: `url('${heroBgImage}')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center right',
+        }}
+      >
+        {/* Soft daylight readability overlay: brighter and cleaner on the left for text contrast, transparent on the right to show terrace & greenery */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#FAF8F5]/90 via-[#FAF8F5]/45 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#FAF8F5] via-transparent to-[#FAF8F5]/30" />
+      </div>
+
       <div className="container-luxury relative z-10">
         {/* Main Grid: Left Content & Right High-End Photography */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center mb-12 lg:mb-16">
