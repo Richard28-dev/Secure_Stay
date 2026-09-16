@@ -47,7 +47,7 @@ export default function WhySecureStay() {
   ];
 
   return (
-    <section className="section-wrapper bg-[#FAF8F5] border-t border-[#E5E0D8]">
+    <section className="section-wrapper bg-white border-t border-[#E5E0D8]">
       <div className="container-luxury">
         {/* Editorial Heading */}
         <div className="max-w-2xl mb-16">
@@ -70,7 +70,7 @@ export default function WhySecureStay() {
             return (
               <div
                 key={point.title}
-                className="bg-[#FFFFFF] border border-[#E5E0D8] rounded-[8px] p-8 shadow-sm flex flex-col justify-between hover:border-[#0E2A1E]/40 transition-colors"
+                className="bg-[#FAF8F5] border border-[#E5E0D8] rounded-[8px] p-8 shadow-xs flex flex-col justify-between hover:border-[#0E2A1E]/40 transition-colors"
               >
                 <div>
                   {/* Top Number & Icon */}

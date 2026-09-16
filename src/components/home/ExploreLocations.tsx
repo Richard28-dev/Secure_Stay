@@ -10,7 +10,7 @@ export default function ExploreLocations() {
   };
 
   return (
-    <section className="section-wrapper bg-[#F3EFEA] border-t border-[#E5E0D8]">
+    <section className="section-wrapper bg-[#EBF3EB] border-t border-[#E5E0D8]">
       <div className="container-luxury">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">

@@ -31,7 +31,7 @@ export default function FeaturedSection() {
   const displayProperties = filtered.slice(0, 6);
 
   return (
-    <section id="featured" className="py-16 lg:py-24 bg-[#FAF8F5]">
+    <section id="featured" className="py-16 lg:py-24 bg-white border-t border-[#E5E0D8]">
       <div className="container-luxury">
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">

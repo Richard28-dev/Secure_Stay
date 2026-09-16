@@ -84,7 +84,7 @@ export default function MarketTrendsSection() {
   const [activeMarket, setActiveMarket] = useState<MarketData>(markets[0]);
 
   return (
-    <section className="py-16 lg:py-24 bg-[#FAF8F5] border-t border-[#E5E0D8]">
+    <section className="py-16 lg:py-24 bg-[#F0F5ED] border-t border-[#E5E0D8]">
       <div className="container-luxury">
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">

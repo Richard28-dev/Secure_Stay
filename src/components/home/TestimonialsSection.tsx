@@ -41,7 +41,7 @@ export default function TestimonialsSection() {
   ];
 
   return (
-    <section className="section-wrapper bg-[#F3EFEA] border-t border-[#E5E0D8]">
+    <section className="section-wrapper bg-[#FAF6F0] border-t border-[#E5E0D8]">
       <div className="container-luxury">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-14">

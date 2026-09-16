@@ -69,10 +69,10 @@ export default function FinalEnquirySection() {
   };
 
   return (
-    <section id="enquiry" className="py-16 lg:py-24 bg-[#FAF8F5] border-t border-[#E5E0D8]">
+    <section id="enquiry" className="py-16 lg:py-24 bg-[#0E2A1E] border-t border-white/10">
       <div className="container-luxury">
         {/* Split Layout Container */}
-        <div className="bg-white border border-[#E5E0D8] rounded-[8px] overflow-hidden shadow-sm grid grid-cols-1 lg:grid-cols-12 items-stretch">
+        <div className="bg-white border border-white/20 rounded-[8px] overflow-hidden shadow-xl grid grid-cols-1 lg:grid-cols-12 items-stretch">
           {/* LEFT: Property Consultation Message & Professional Image (5 Cols) */}
           <div className="lg:col-span-5 bg-[#0E2A1E] text-white p-8 sm:p-10 lg:p-12 flex flex-col justify-between relative overflow-hidden">
             {/* Background Subtle Gradient */}

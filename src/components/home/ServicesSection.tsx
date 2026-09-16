@@ -36,7 +36,7 @@ export default function ServicesSection() {
   ];
 
   return (
-    <section id="services" className="py-16 lg:py-24 bg-white border-t border-[#E5E0D8]">
+    <section id="services" className="py-16 lg:py-24 bg-[#EBF3EB] border-t border-[#E5E0D8]">
       <div className="container-luxury">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
           <div>
@@ -53,7 +53,7 @@ export default function ServicesSection() {
 
           <button
             onClick={() => navigate('/contact')}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-[8px] border border-[#0E2A1E] text-[#0E2A1E] hover:bg-[#0E2A1E] hover:text-[#FAF8F5] text-[13px] font-semibold transition-colors cursor-pointer w-fit"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-[8px] bg-[#0E2A1E] text-[#FAF8F5] hover:bg-[#163A29] text-[13px] font-semibold transition-colors cursor-pointer w-fit shadow-xs"
           >
             <span>Talk with Our Team</span>
             <ArrowRight size={15} />
@@ -66,7 +66,7 @@ export default function ServicesSection() {
             return (
               <div
                 key={svc.title}
-                className="bg-[#FAF8F5] border border-[#E5E0D8] hover:border-[#0E2A1E]/30 rounded-[8px] p-6 flex flex-col justify-between transition-all duration-300 hover:shadow-sm group"
+                className="bg-white border border-[#D6E2D6] hover:border-[#0E2A1E]/40 rounded-[8px] p-6 flex flex-col justify-between transition-all duration-300 hover:shadow-md group"
               >
                 <div>
                   <div className="w-12 h-12 rounded-[6px] bg-[#E8EFE8] text-[#0E2A1E] flex items-center justify-center mb-5 group-hover:bg-[#0E2A1E] group-hover:text-white transition-colors">
