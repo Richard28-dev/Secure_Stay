@@ -119,34 +119,13 @@ export default function HeroSection() {
 
           {/* Right Realistic High-Quality Real Estate Photography */}
           <div className="lg:col-span-6 relative">
-            <div className="relative rounded-[8px] overflow-hidden shadow-2xl border border-[#E5E0D8] bg-white">
+            <div className="relative rounded-[8px] overflow-hidden shadow-xl border border-[#E5E0D8] bg-white">
               <img
                 src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=85"
                 alt="Architectural Modern Luxury Residence"
                 className="w-full h-[400px] sm:h-[460px] lg:h-[480px] object-cover"
                 loading="eager"
               />
-
-              {/* Subtle Natural Gradient Overlay at Bottom */}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0E2A1E]/80 via-transparent to-transparent opacity-90" />
-
-              {/* Verified Property Callout Card */}
-              <div className="absolute bottom-5 left-5 right-5 p-4 rounded-[8px] bg-white/95 backdrop-blur-sm border border-white/40 shadow-lg flex items-center justify-between">
-                <div>
-                  <div className="flex items-center gap-1.5 mb-1">
-                    <span className="w-2 h-2 rounded-full bg-[#16A34A]" />
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-[#0E2A1E]">Featured Residence</span>
-                  </div>
-                  <h3 className="text-[16px] font-bold text-[#1A1C1A] leading-tight">The Grand Oak Sanctuary Villa</h3>
-                  <p className="text-[13px] text-[#5A605B]">Whitefield, Bangalore · 4 BHK · ₹4.85 Cr</p>
-                </div>
-                <button
-                  onClick={() => navigate('/property/the-grand-oak-sanctuary-villa')}
-                  className="px-3.5 py-2 rounded-[6px] bg-[#0E2A1E] text-white text-[13px] font-medium hover:bg-[#163A29] transition-colors whitespace-nowrap cursor-pointer shadow-xs"
-                >
-                  View Home
-                </button>
-              </div>
             </div>
           </div>
         </div>
