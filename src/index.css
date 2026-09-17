@@ -281,6 +281,34 @@ h1, h2, h3, h4, h5, h6 {
   animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
+/* Biophilic & Sanctuary Living Accents */
+.badge-sanctuary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.85rem;
+  background: #EEF4F0;
+  border: 1px solid rgba(10, 42, 29, 0.14);
+  color: #0A2A1D;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border-radius: 9999px;
+}
+
+.card-sanctuary {
+  background: #FFFFFF;
+  border: 1px solid #E6E0D5;
+  border-radius: 12px;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.card-sanctuary:hover {
+  border-color: #0A2A1D;
+  box-shadow: 0 16px 32px -8px rgba(10, 42, 29, 0.08);
+  transform: translateY(-2px);
+}
+
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.01ms !important;

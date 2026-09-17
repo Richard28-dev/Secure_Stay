@@ -1,24 +1,24 @@
 import { useState } from 'react';
-import { ArrowRight, Bed, Bath, Maximize2, MapPin, ChevronLeft, ChevronRight, Car } from 'lucide-react';
-import { useProperties } from '../../context/PropertyContext';
+import { ArrowRight, Bed, Maximize2, MapPin, ChevronLeft, ChevronRight, Trees, Waves, Sun, Sparkles, PhoneCall } from 'lucide-react';
 import { useRouter } from '../../context/RouterContext';
 
 export default function PremiumShowcase() {
-  const { properties } = useProperties();
   const { navigate } = useRouter();
 
-  const showcaseProperty = properties.find((p) => p.id === 'prop-grand-oak') || properties[0];
   const [activeImgIndex, setActiveImgIndex] = useState(0);
 
-  if (!showcaseProperty) return null;
+  const images = [
+    'https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=1400&q=85',
+    'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=1400&q=85',
+    'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1400&q=85',
+    'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1400&q=85',
+  ];
 
-  const images = (showcaseProperty.images && showcaseProperty.images.length > 0)
-    ? showcaseProperty.images
-    : [
-        'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1400&q=85',
-        'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1400&q=85',
-        'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1400&q=85',
-      ];
+  const hotspots = [
+    { title: 'Living Water Pavilion', desc: 'Frameless glass pavilion over basalt reflection pool' },
+    { title: 'Open-Air Stone Bath', desc: 'Handcrafted black river-stone rain shower' },
+    { title: 'Banyan Tree Courtyard', desc: 'Centenary banyan canopy providing natural shading' },
+  ];
 
   const handleNext = () => {
     setActiveImgIndex((prev) => (prev + 1) % images.length);
@@ -29,17 +29,20 @@ export default function PremiumShowcase() {
   };
 
   return (
-    <section className="py-16 lg:py-24 bg-[#0A2A1D] text-[#FAF8F5] border-t border-white/10">
-      <div className="container-luxury">
+    <section className="py-16 lg:py-24 bg-[#0A2A1D] text-[#FAF8F5] border-t border-white/10 relative overflow-hidden">
+      {/* Background ambient lighting */}
+      <div className="absolute top-1/2 left-0 w-96 h-96 bg-[#164733]/40 rounded-full blur-3xl pointer-events-none -translate-y-1/2" />
+
+      <div className="container-luxury relative z-10">
         {/* Editorial Advertisement Container */}
-        <div className="bg-[#0E3324] border border-white/15 rounded-[8px] p-6 sm:p-10 lg:p-12 shadow-xl">
+        <div className="bg-[#0E3324] border border-white/15 rounded-[12px] p-6 sm:p-10 lg:p-12 shadow-2xl">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
             {/* Left: Large High-Resolution Photography (7 cols) */}
             <div className="lg:col-span-7 space-y-3">
-              <div className="relative aspect-[16/11] rounded-[8px] overflow-hidden border border-white/15 bg-[#061A12] group">
+              <div className="relative aspect-[16/11] rounded-[10px] overflow-hidden border border-white/15 bg-[#061A12] group shadow-lg">
                 <img
-                  src={images[activeImgIndex] || images[0]}
-                  alt={showcaseProperty.title}
+                  src={images[activeImgIndex]}
+                  alt="The Banyan Villa & Water Pavilion"
                   className="w-full h-full object-cover transition-all duration-700"
                   loading="lazy"
                 />
@@ -67,16 +70,22 @@ export default function PremiumShowcase() {
                 <div className="absolute bottom-3 right-3 px-2.5 py-1 rounded-[4px] bg-black/70 text-[11px] font-mono text-[#D2DFD2]">
                   {activeImgIndex + 1} / {images.length}
                 </div>
+
+                {/* Top Badge */}
+                <div className="absolute top-3.5 left-3.5 px-3 py-1.5 rounded-full bg-[#0A2A1D]/90 backdrop-blur-md text-[#FDFBF7] text-[11px] font-semibold border border-[#C5A880]/40 flex items-center gap-1.5">
+                  <Trees size={13} className="text-[#C5A880]" />
+                  <span>Assagao Forest Sanctuary · North Goa</span>
+                </div>
               </div>
 
               {/* Thumbnails */}
               <div className="grid grid-cols-4 gap-2.5">
-                {images.slice(0, 4).map((img, idx) => (
+                {images.map((img, idx) => (
                   <button
                     key={idx}
                     type="button"
                     onClick={() => setActiveImgIndex(idx)}
-                    className={`aspect-[16/10] rounded-[4px] overflow-hidden border transition-all cursor-pointer ${
+                    className={`aspect-[16/10] rounded-[6px] overflow-hidden border transition-all cursor-pointer ${
                       activeImgIndex === idx
                         ? 'border-[#C5A880] ring-1 ring-[#C5A880]'
                         : 'border-white/15 opacity-70 hover:opacity-100'
@@ -89,63 +98,89 @@ export default function PremiumShowcase() {
             </div>
 
             {/* Right: Property Advertisement Story & Specifications (5 cols) */}
-            <div className="lg:col-span-5 space-y-6">
+            <div className="lg:col-span-5 space-y-5">
               <div>
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-[4px] bg-[#164733] border border-[#C5A880]/30 text-[#C5A880] text-[11px] font-bold uppercase tracking-wider mb-3">
-                  <span>Property of the Month</span>
+                <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#164733] border border-[#C5A880]/30 text-[#C5A880] text-[11px] font-bold tracking-wider mb-2.5">
+                  <Sparkles size={12} />
+                  <span>Sanctuary of the Season</span>
                 </div>
 
                 <h3 className="text-3xl sm:text-4xl font-bold font-heading text-white tracking-tight leading-tight">
-                  {showcaseProperty.title}
+                  The Banyan Villa & Water Pavilion
                 </h3>
 
                 <div className="flex items-center gap-2 text-[14px] text-[#D2DFD2] mt-2">
                   <MapPin size={15} className="text-[#C5A880] shrink-0" />
-                  <span>{showcaseProperty.location}</span>
+                  <span>Assagao, North Goa · 1.2 Acres Protected Forest Edge</span>
                 </div>
               </div>
 
-              <div className="py-3 border-y border-white/15">
-                <span className="text-[11.5px] uppercase tracking-wider text-[#A3B8A8] font-medium block">
-                  Offered Price
-                </span>
-                <span className="text-3xl font-bold text-[#C5A880] font-heading">
-                  {showcaseProperty.price}
+              <div className="py-3 border-y border-white/15 flex items-baseline justify-between">
+                <div>
+                  <span className="text-[11px] uppercase tracking-wider text-[#A3B8A8] font-medium block">
+                    Acquisition Value
+                  </span>
+                  <span className="text-3xl font-bold text-[#C5A880] font-heading">
+                    ₹4.85 Cr
+                  </span>
+                </div>
+                <span className="text-[12px] text-[#A3B8A8] bg-white/10 px-2.5 py-1 rounded">
+                  Freehold Title · Ready
                 </span>
               </div>
 
               {/* Key Facts Grid */}
-              <div className="grid grid-cols-2 gap-3 text-[13px] text-[#FAF8F5]">
-                <div className="flex items-center gap-2.5 p-2.5 rounded-[6px] bg-white/5 border border-white/10">
-                  <Bed size={16} className="text-[#C5A880]" />
-                  <span>{showcaseProperty.bedrooms} Luxury Suites</span>
+              <div className="grid grid-cols-2 gap-2.5 text-[12.5px] text-[#FAF8F5]">
+                <div className="flex items-center gap-2 p-2.5 rounded-[6px] bg-white/5 border border-white/10">
+                  <Bed size={15} className="text-[#C5A880]" />
+                  <span>4 En-suite Suites</span>
                 </div>
-                <div className="flex items-center gap-2.5 p-2.5 rounded-[6px] bg-white/5 border border-white/10">
-                  <Bath size={16} className="text-[#C5A880]" />
-                  <span>{showcaseProperty.bathrooms} Bathrooms</span>
+                <div className="flex items-center gap-2 p-2.5 rounded-[6px] bg-white/5 border border-white/10">
+                  <Waves size={15} className="text-[#C5A880]" />
+                  <span>20m Basalt Pool</span>
                 </div>
-                <div className="flex items-center gap-2.5 p-2.5 rounded-[6px] bg-white/5 border border-white/10">
-                  <Maximize2 size={16} className="text-[#C5A880]" />
-                  <span>{showcaseProperty.area}</span>
+                <div className="flex items-center gap-2 p-2.5 rounded-[6px] bg-white/5 border border-white/10">
+                  <Maximize2 size={15} className="text-[#C5A880]" />
+                  <span>6,800 sq.ft Built</span>
                 </div>
-                <div className="flex items-center gap-2.5 p-2.5 rounded-[6px] bg-white/5 border border-white/10">
-                  <Car size={16} className="text-[#C5A880]" />
-                  <span>{showcaseProperty.parking || 2} Covered Parking</span>
+                <div className="flex items-center gap-2 p-2.5 rounded-[6px] bg-white/5 border border-white/10">
+                  <Sun size={15} className="text-[#C5A880]" />
+                  <span>100% Solar Powered</span>
                 </div>
               </div>
 
               <p className="text-[13.5px] text-[#D2DFD2] leading-relaxed">
-                An exceptional architectural residence featuring private landscaped lawns, floor-to-ceiling thermal glazing, and complete RERA legal title certification.
+                An exceptional biophilic masterwork surrounded by native banyan groves and cashew orchards. Designed with open-to-sky living courtyards, natural cross-ventilation, and strict sub-35dB acoustic tranquility.
               </p>
 
-              <div className="pt-2">
+              {/* Architectural Hotspots */}
+              <div className="space-y-1.5 pt-1">
+                {hotspots.map((h, i) => (
+                  <div key={i} className="flex items-center gap-2 text-[12px] text-[#D2DFD2]">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#C5A880]" />
+                    <span className="font-semibold text-white">{h.title}:</span>
+                    <span>{h.desc}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div className="pt-3 flex flex-wrap items-center gap-3">
                 <button
                   type="button"
-                  onClick={() => navigate(`/property/${showcaseProperty.id}`)}
-                  className="w-full sm:w-auto px-7 py-3.5 rounded-[6px] bg-[#C5A880] hover:bg-[#D4BC96] text-[#0A2A1D] text-[14px] font-bold transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-md"
+                  onClick={() => navigate('/contact')}
+                  className="px-6 py-3 rounded-[6px] bg-[#C5A880] hover:bg-[#D4BC96] text-[#0A2A1D] text-[13.5px] font-bold transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-md"
                 >
-                  <span>View Property Dossier</span>
-                  <ArrowRight size={15} />
+                  <PhoneCall size={15} />
+                  <span>Book Private Walkthrough</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => navigate('/search', { city: 'Goa', type: 'Villa' })}
+                  className="px-5 py-3 rounded-[6px] bg-transparent hover:bg-white/10 text-white border border-white/25 text-[13.5px] font-semibold transition-colors flex items-center justify-center gap-2 cursor-pointer"
+                >
+                  <span>Explore Goa Villas</span>
+                  <ArrowRight size={14} />
                 </button>
               </div>
             </div>

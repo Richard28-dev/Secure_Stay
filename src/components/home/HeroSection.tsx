@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Search, MapPin, Home, IndianRupee, ArrowRight, ShieldCheck, PhoneCall, Sparkles, Bed } from 'lucide-react';
+import { useState } from 'react';
+import { Search, MapPin, Home, IndianRupee, ArrowRight, PhoneCall, Trees, Sparkles, ShieldCheck } from 'lucide-react';
 import { useRouter } from '../../context/RouterContext';
 import heroBgImage from '../../assets/images/luxury-terrace-hero-bg.jpg';
 
@@ -10,18 +10,16 @@ export default function HeroSection() {
   const [locationInput, setLocationInput] = useState('');
   const [propertyType, setPropertyType] = useState('All Types');
   const [budget, setBudget] = useState('Any Budget');
-  const [bedrooms, setBedrooms] = useState('any');
   const [isLocationFocused, setIsLocationFocused] = useState(false);
 
   const locationSuggestions = [
-    { name: 'Whitefield', city: 'Bengaluru', count: '48 verified homes' },
-    { name: 'Sarjapur Road', city: 'Bengaluru', count: '34 villas' },
-    { name: 'Electronic City', city: 'Bengaluru', count: '52 apartments' },
-    { name: 'Jubilee Hills', city: 'Hyderabad', count: '29 penthouses' },
-    { name: 'Assagao', city: 'Goa', count: '18 heritage estates' },
-    { name: 'Bandra West', city: 'Mumbai', count: '22 prime residences' },
-    { name: 'Koregaon Park', city: 'Pune', count: '19 luxury apartments' },
-    { name: 'Golf Course Road', city: 'Delhi NCR', count: '31 high-rise residences' },
+    { name: 'Assagao', city: 'North Goa', count: '18 heritage villas' },
+    { name: 'Coorg', city: 'Karnataka', count: '12 forest estates' },
+    { name: 'Alibaug', city: 'Maharashtra', count: '15 waterfront retreats' },
+    { name: 'Whitefield & Sarjapur', city: 'Bengaluru', count: '34 green enclaves' },
+    { name: 'Jubilee Hills', city: 'Hyderabad', count: '24 private sanctuaries' },
+    { name: 'Kodaikanal', city: 'Tamil Nadu', count: '9 hillside estates' },
+    { name: 'Bandra West', city: 'Mumbai', count: '19 coastal residences' },
   ];
 
   const filteredLocations = locationSuggestions.filter(
@@ -35,7 +33,6 @@ export default function HeroSection() {
     const params: Record<string, string> = { intent };
     if (locationInput.trim()) params.city = locationInput.trim();
     if (propertyType !== 'All Types') params.type = propertyType;
-    if (bedrooms !== 'any') params.bedrooms = bedrooms;
     if (budget !== 'Any Budget') {
       if (budget === 'Under ₹1 Cr') params.maxPrice = '10000000';
       if (budget === '₹1 Cr - ₹2.5 Cr') {
@@ -52,264 +49,211 @@ export default function HeroSection() {
   };
 
   return (
-    <section className="relative w-full pt-28 pb-16 lg:pt-36 lg:pb-24 overflow-hidden bg-[#FAF8F5]">
-      {/* Photorealistic Luxury Residence Terrace & Cityscape Background */}
+    <section className="relative w-full pt-32 pb-20 lg:pt-40 lg:pb-28 overflow-hidden bg-[#FAF8F5]">
+      {/* Photorealistic Luxury Residence Terrace & Canopy Background */}
       <div
         className="absolute inset-0 bg-cover bg-center transition-all duration-1000 pointer-events-none"
         style={{
           backgroundImage: `url('${heroBgImage}')`,
           backgroundSize: 'cover',
-          backgroundPosition: 'center right',
+          backgroundPosition: 'center',
         }}
       >
-        {/* Soft daylight readability overlay: brighter and cleaner on the left for text contrast, transparent on the right to show terrace & greenery */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#FAF8F5]/90 via-[#FAF8F5]/45 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#FAF8F5] via-transparent to-[#FAF8F5]/30" />
+        {/* Soft, balanced daylight gradients that let the architectural terrace show through cleanly */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#FAF8F5]/90 via-[#FAF8F5]/70 to-[#FAF8F5]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(250,248,245,0.75)_80%)]" />
       </div>
 
       <div className="container-luxury relative z-10">
-        {/* Main Grid: Left Content & Right High-End Photography */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center mb-12 lg:mb-16">
-          {/* Left Editorial Copy */}
-          <div className="lg:col-span-6 space-y-6">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-[6px] bg-[#E4ECE7] border border-[#0A2A1D]/15 text-[#0A2A1D] text-[12px] font-bold uppercase tracking-wider">
-              <ShieldCheck size={15} className="text-[#0A2A1D]" />
-              <span>Verified Real Estate</span>
-            </div>
-
-            <h1 className="text-4xl sm:text-5xl lg:text-[3.5rem] font-bold text-[#1A1E1C] tracking-tight leading-[1.1] font-heading">
-              Find a place <br className="hidden sm:inline" />that <span className="text-[#0A2A1D]">feels like home.</span>
-            </h1>
-
-            <p className="text-[17px] text-[#57605B] leading-relaxed max-w-xl font-normal">
-              Verified properties, trusted professionals and a simpler way to find your next home or investment.
-            </p>
-
-            {/* Direct CTA Buttons */}
-            <div className="flex flex-wrap items-center gap-3.5 pt-2">
-              <button
-                onClick={() => navigate('/buy')}
-                className="btn-forest text-[15px] px-6 py-3.5 rounded-[8px] flex items-center gap-2 shadow-sm group"
-              >
-                <span>Explore Properties</span>
-                <ArrowRight size={17} className="transition-transform group-hover:translate-x-0.5" />
-              </button>
-
-              <button
-                onClick={() => navigate('/contact')}
-                className="btn-outline-forest text-[15px] px-6 py-3.5 rounded-[8px] bg-white flex items-center gap-2"
-              >
-                <PhoneCall size={16} className="text-[#0A2A1D]" />
-                <span>Talk to an Expert</span>
-              </button>
-            </div>
-
-            {/* Trust Badges Minimal Row */}
-            <div className="grid grid-cols-3 gap-4 pt-4 border-t border-[#E5DFD5]">
-              <div>
-                <p className="text-xl font-bold text-[#0A2A1D] font-heading">500+</p>
-                <p className="text-[12px] text-[#57605B] leading-tight mt-0.5">Verified Listings</p>
-              </div>
-              <div>
-                <p className="text-xl font-bold text-[#0A2A1D] font-heading">100%</p>
-                <p className="text-[12px] text-[#57605B] leading-tight mt-0.5">Legal Title Verified</p>
-              </div>
-              <div>
-                <p className="text-xl font-bold text-[#0A2A1D] font-heading">10+ Yrs</p>
-                <p className="text-[12px] text-[#57605B] leading-tight mt-0.5">Trusted Experience</p>
-              </div>
-            </div>
+        {/* Editorial Centered Hero Header */}
+        <div className="text-center max-w-4xl mx-auto space-y-6 mb-12 lg:mb-14">
+          {/* Subtle Top Badge */}
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/90 border border-[#0A2A1D]/15 text-[#0A2A1D] text-[12px] font-bold tracking-wider shadow-xs backdrop-blur-xs">
+            <Sparkles size={14} className="text-[#C5A880]" />
+            <span>Curated Sanctuary Estates & Private Villas</span>
           </div>
 
-          {/* Right Realistic High-Quality Real Estate Photography */}
-          <div className="lg:col-span-6 relative">
-            <div className="relative rounded-[8px] overflow-hidden shadow-xl border border-[#E5DFD5] bg-white group">
-              <img
-                src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=85"
-                alt="Verified SecureStay Luxury Residence"
-                className="w-full h-[380px] sm:h-[440px] lg:h-[460px] object-cover group-hover:scale-102 transition-transform duration-700"
-                loading="eager"
-              />
-              <div className="absolute top-4 left-4 z-10 px-3 py-1.5 rounded-[6px] bg-[#0A2A1D]/90 backdrop-blur-md text-[#FDFBF7] text-[11px] font-semibold border border-[#C5A880]/30 flex items-center gap-1.5">
-                <ShieldCheck size={14} className="text-[#C5A880]" />
-                <span>Verified Residency · Bengaluru</span>
-              </div>
-            </div>
+          {/* Main Headline */}
+          <h1 className="text-4xl sm:text-5xl lg:text-[4.25rem] font-bold text-[#1A1E1C] tracking-tight leading-[1.08] font-heading">
+            Sanctuaries crafted for <br className="hidden sm:inline" />
+            <span className="text-[#0A2A1D] italic font-serif">calm, light, and living well.</span>
+          </h1>
+
+          {/* Subtitle */}
+          <p className="text-lg sm:text-[19px] text-[#4A544F] leading-relaxed max-w-2xl mx-auto font-normal">
+            Private pool villas, serene forest estates, and light-filled courtyard homes curated across India’s most tranquil landscapes.
+          </p>
+
+          {/* Centered Actions */}
+          <div className="flex flex-wrap items-center justify-center gap-3.5 pt-2">
+            <button
+              onClick={() => navigate('/buy')}
+              className="btn-forest text-[15px] px-7 py-3.5 rounded-[8px] flex items-center gap-2 shadow-sm group cursor-pointer"
+            >
+              <span>Explore Sanctuaries</span>
+              <ArrowRight size={17} className="transition-transform group-hover:translate-x-0.5" />
+            </button>
+
+            <button
+              onClick={() => navigate('/contact')}
+              className="btn-outline-forest text-[15px] px-7 py-3.5 rounded-[8px] bg-white/95 flex items-center gap-2 cursor-pointer shadow-xs hover:shadow"
+            >
+              <PhoneCall size={16} className="text-[#0A2A1D]" />
+              <span>Book Private Advisory</span>
+            </button>
+          </div>
+
+          {/* Trust Highlights Strip */}
+          <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-10 pt-2 text-[13px] text-[#4A544F] font-medium">
+            <span className="flex items-center gap-1.5">
+              <ShieldCheck size={16} className="text-[#0A2A1D]" />
+              <span>100% Freehold & Title Verified</span>
+            </span>
+            <span className="hidden sm:inline text-[#C5A880]">•</span>
+            <span className="flex items-center gap-1.5">
+              <Trees size={16} className="text-[#0A2A1D]" />
+              <span>Sub-35dB Acoustic Stillness</span>
+            </span>
+            <span className="hidden sm:inline text-[#C5A880]">•</span>
+            <span className="flex items-center gap-1.5">
+              <Sparkles size={16} className="text-[#0A2A1D]" />
+              <span>Zero Broker Conflict</span>
+            </span>
           </div>
         </div>
 
-        {/* Practical Real Estate Property Search Panel */}
-        <div className="bg-white rounded-[8px] shadow-lg border border-[#E5DFD5] p-5 sm:p-6 transition-shadow hover:shadow-xl">
-          {/* Intent Tabs */}
-          <div className="flex items-center justify-between mb-4 border-b border-[#E5DFD5] pb-3">
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={() => setIntent('buy')}
-                className={`px-4 py-1.5 rounded-[6px] text-[13px] font-semibold transition-all cursor-pointer ${
-                  intent === 'buy'
-                    ? 'bg-[#0A2A1D] text-[#FDFBF7]'
-                    : 'text-[#57605B] hover:text-[#1A1E1C] hover:bg-[#F4EFE6]'
-                }`}
-              >
-                Buy a Home
-              </button>
-              <button
-                type="button"
-                onClick={() => setIntent('rent')}
-                className={`px-4 py-1.5 rounded-[6px] text-[13px] font-semibold transition-all cursor-pointer ${
-                  intent === 'rent'
-                    ? 'bg-[#0A2A1D] text-[#FDFBF7]'
-                    : 'text-[#57605B] hover:text-[#1A1E1C] hover:bg-[#F4EFE6]'
-                }`}
-              >
-                Rent a Home
-              </button>
-            </div>
-
-            <div className="hidden sm:flex items-center gap-1.5 text-[12px] text-[#0A2A1D] font-semibold bg-[#E4ECE7] px-2.5 py-1 rounded-[4px]">
-              <Sparkles size={13} />
-              <span>Direct Database Search</span>
-            </div>
+        {/* Ultra-Sleek Floating Search Capsule */}
+        <div className="max-w-4xl mx-auto">
+          {/* Understated Intent Tabs */}
+          <div className="flex items-center justify-center gap-8 mb-4">
+            <button
+              type="button"
+              onClick={() => setIntent('buy')}
+              className={`text-[14px] font-semibold tracking-wide transition-all pb-1.5 cursor-pointer border-b-2 ${
+                intent === 'buy'
+                  ? 'border-[#0A2A1D] text-[#0A2A1D]'
+                  : 'border-transparent text-[#6B7570] hover:text-[#1A1E1C]'
+              }`}
+            >
+              Purchase
+            </button>
+            <button
+              type="button"
+              onClick={() => setIntent('rent')}
+              className={`text-[14px] font-semibold tracking-wide transition-all pb-1.5 cursor-pointer border-b-2 ${
+                intent === 'rent'
+                  ? 'border-[#0A2A1D] text-[#0A2A1D]'
+                  : 'border-transparent text-[#6B7570] hover:text-[#1A1E1C]'
+              }`}
+            >
+              Lease
+            </button>
           </div>
 
-          <form onSubmit={handleSearchSubmit} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3 sm:gap-4 items-end">
-            {/* Field 1: Location with Autocomplete */}
-            <div className="lg:col-span-3 relative">
-              <label className="block text-[11px] font-bold uppercase tracking-wider text-[#57605B] mb-1.5">
-                Location
-              </label>
-              <div className="relative">
-                <MapPin size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#57605B]" />
-                <input
-                  type="text"
-                  placeholder="e.g. Whitefield, Sarjapur..."
-                  value={locationInput}
-                  onChange={(e) => setLocationInput(e.target.value)}
-                  onFocus={() => setIsLocationFocused(true)}
-                  onBlur={() => setTimeout(() => setIsLocationFocused(false), 200)}
-                  className="w-full pl-9 pr-3 py-2.5 bg-[#FDFBF7] border border-[#E5DFD5] rounded-[6px] text-[13.5px] text-[#1A1E1C] placeholder-[#8C938E] focus:outline-none focus:border-[#0A2A1D] transition-colors"
-                />
-              </div>
-
-              {/* Autocomplete Dropdown */}
-              {isLocationFocused && filteredLocations.length > 0 && (
-                <div className="absolute left-0 right-0 top-full mt-1.5 bg-white border border-[#E5DFD5] rounded-[8px] shadow-xl z-50 max-h-56 overflow-y-auto py-1">
-                  {filteredLocations.map((loc) => (
-                    <button
-                      key={loc.name}
-                      type="button"
-                      onMouseDown={() => {
-                        setLocationInput(loc.name);
-                        setIsLocationFocused(false);
-                      }}
-                      className="w-full px-4 py-2 text-left hover:bg-[#FDFBF7] flex items-center justify-between text-[13px] text-[#1A1E1C] cursor-pointer"
-                    >
-                      <div className="flex items-center gap-2">
-                        <MapPin size={14} className="text-[#0A2A1D]" />
-                        <span className="font-semibold">{loc.name}</span>
-                        <span className="text-[#8C938E] text-[12px]">({loc.city})</span>
-                      </div>
-                      <span className="text-[11px] text-[#0A2A1D] font-medium bg-[#E4ECE7] px-2 py-0.5 rounded">
-                        {loc.count}
-                      </span>
-                    </button>
-                  ))}
+          {/* Unified Floating Search Bar */}
+          <div className="bg-white rounded-2xl sm:rounded-full border border-[#E5DFD5] shadow-lg hover:shadow-xl transition-all duration-300 p-2 sm:p-2.5">
+            <form
+              onSubmit={handleSearchSubmit}
+              className="flex flex-col sm:flex-row items-stretch sm:items-center divide-y sm:divide-y-0 sm:divide-x divide-[#E5DFD5]"
+            >
+              {/* Segment 1: Destination */}
+              <div className="flex-1 min-w-[200px] px-4 py-2.5 sm:py-1 relative">
+                <label className="block text-[10.5px] font-bold uppercase tracking-wider text-[#7D8882] mb-0.5">
+                  Destination
+                </label>
+                <div className="flex items-center gap-2">
+                  <MapPin size={16} className="text-[#0A2A1D] shrink-0" />
+                  <input
+                    type="text"
+                    placeholder="e.g. Assagao, Coorg, Alibaug..."
+                    value={locationInput}
+                    onChange={(e) => setLocationInput(e.target.value)}
+                    onFocus={() => setIsLocationFocused(true)}
+                    onBlur={() => setTimeout(() => setIsLocationFocused(false), 200)}
+                    className="w-full bg-transparent text-[14px] text-[#1A1E1C] placeholder-[#9AA5A0] focus:outline-none font-medium"
+                  />
                 </div>
-              )}
-            </div>
 
-            {/* Field 2: Property Type */}
-            <div className="lg:col-span-2">
-              <label className="block text-[11px] font-bold uppercase tracking-wider text-[#57605B] mb-1.5">
-                Property Type
-              </label>
-              <div className="relative">
-                <Home size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#57605B]" />
-                <select
-                  value={propertyType}
-                  onChange={(e) => setPropertyType(e.target.value)}
-                  className="w-full pl-9 pr-7 py-2.5 bg-[#FDFBF7] border border-[#E5DFD5] rounded-[6px] text-[13.5px] text-[#1A1E1C] focus:outline-none focus:border-[#0A2A1D] transition-colors cursor-pointer appearance-none"
-                >
-                  <option value="All Types">All Types</option>
-                  <option value="Apartment">Apartment</option>
-                  <option value="Villa">Villa</option>
-                  <option value="Penthouse">Penthouse</option>
-                  <option value="Estate">Estate</option>
-                </select>
+                {/* Clean Floating Autocomplete Dropdown */}
+                {isLocationFocused && filteredLocations.length > 0 && (
+                  <div className="absolute left-0 right-0 top-full mt-3 bg-white border border-[#E5DFD5] rounded-xl shadow-xl z-50 max-h-56 overflow-y-auto py-1">
+                    {filteredLocations.map((loc) => (
+                      <button
+                        key={loc.name}
+                        type="button"
+                        onMouseDown={() => {
+                          setLocationInput(loc.name);
+                          setIsLocationFocused(false);
+                        }}
+                        className="w-full px-4 py-2.5 text-left hover:bg-[#FDFBF7] flex items-center justify-between text-[13px] text-[#1A1E1C] cursor-pointer transition-colors"
+                      >
+                        <div className="flex items-center gap-2">
+                          <MapPin size={14} className="text-[#0A2A1D]" />
+                          <span className="font-semibold">{loc.name}</span>
+                          <span className="text-[#8C938E] text-[12px]">({loc.city})</span>
+                        </div>
+                        <span className="text-[11px] text-[#0A2A1D] font-medium bg-[#E4ECE7] px-2 py-0.5 rounded-full">
+                          {loc.count}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
-            </div>
 
-            {/* Field 3: Price Range */}
-            <div className="lg:col-span-3">
-              <label className="block text-[11px] font-bold uppercase tracking-wider text-[#57605B] mb-1.5">
-                Price Range
-              </label>
-              <div className="relative">
-                <IndianRupee size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#57605B]" />
-                <select
-                  value={budget}
-                  onChange={(e) => setBudget(e.target.value)}
-                  className="w-full pl-9 pr-7 py-2.5 bg-[#FDFBF7] border border-[#E5DFD5] rounded-[6px] text-[13.5px] text-[#1A1E1C] focus:outline-none focus:border-[#0A2A1D] transition-colors cursor-pointer appearance-none"
-                >
-                  <option value="Any Budget">Any Budget</option>
-                  <option value="Under ₹1 Cr">Under ₹1.0 Cr</option>
-                  <option value="₹1 Cr - ₹2.5 Cr">₹1.0 Cr – ₹2.5 Cr</option>
-                  <option value="₹2.5 Cr - ₹5 Cr">₹2.5 Cr – ₹5.0 Cr</option>
-                  <option value="₹5 Cr+">₹5.0 Cr & Above</option>
-                </select>
+              {/* Segment 2: Estate Type */}
+              <div className="px-4 py-2.5 sm:py-1 min-w-[170px]">
+                <label className="block text-[10.5px] font-bold uppercase tracking-wider text-[#7D8882] mb-0.5">
+                  Estate Type
+                </label>
+                <div className="flex items-center gap-2">
+                  <Home size={16} className="text-[#0A2A1D] shrink-0" />
+                  <select
+                    value={propertyType}
+                    onChange={(e) => setPropertyType(e.target.value)}
+                    className="w-full bg-transparent text-[14px] text-[#1A1E1C] focus:outline-none font-medium appearance-none cursor-pointer pr-4"
+                  >
+                    <option value="All Types">All Residences</option>
+                    <option value="Villa">Private Villa</option>
+                    <option value="Estate">Plantation Retreat</option>
+                    <option value="Penthouse">Sky Penthouse</option>
+                    <option value="Apartment">Courtyard Home</option>
+                  </select>
+                </div>
               </div>
-            </div>
 
-            {/* Field 4: Bedrooms */}
-            <div className="lg:col-span-2">
-              <label className="block text-[11px] font-bold uppercase tracking-wider text-[#57605B] mb-1.5">
-                Bedrooms
-              </label>
-              <div className="relative">
-                <Bed size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#57605B]" />
-                <select
-                  value={bedrooms}
-                  onChange={(e) => setBedrooms(e.target.value)}
-                  className="w-full pl-9 pr-7 py-2.5 bg-[#FDFBF7] border border-[#E5DFD5] rounded-[6px] text-[13.5px] text-[#1A1E1C] focus:outline-none focus:border-[#0A2A1D] transition-colors cursor-pointer appearance-none"
-                >
-                  <option value="any">Any BHK</option>
-                  <option value="2">2+ BHK</option>
-                  <option value="3">3+ BHK</option>
-                  <option value="4">4+ BHK</option>
-                  <option value="5">5+ BHK</option>
-                </select>
+              {/* Segment 3: Budget Range */}
+              <div className="px-4 py-2.5 sm:py-1 min-w-[160px]">
+                <label className="block text-[10.5px] font-bold uppercase tracking-wider text-[#7D8882] mb-0.5">
+                  Investment
+                </label>
+                <div className="flex items-center gap-2">
+                  <IndianRupee size={15} className="text-[#0A2A1D] shrink-0" />
+                  <select
+                    value={budget}
+                    onChange={(e) => setBudget(e.target.value)}
+                    className="w-full bg-transparent text-[14px] text-[#1A1E1C] focus:outline-none font-medium appearance-none cursor-pointer pr-4"
+                  >
+                    <option value="Any Budget">Any Budget</option>
+                    <option value="Under ₹1 Cr">Under ₹1.0 Cr</option>
+                    <option value="₹1 Cr - ₹2.5 Cr">₹1.0 Cr – ₹2.5 Cr</option>
+                    <option value="₹2.5 Cr - ₹5 Cr">₹2.5 Cr – ₹5.0 Cr</option>
+                    <option value="₹5 Cr+">₹5.0 Cr & Above</option>
+                  </select>
+                </div>
               </div>
-            </div>
 
-            {/* Field 5: Search Action */}
-            <div className="lg:col-span-2">
-              <button
-                type="submit"
-                className="w-full py-2.5 px-4 bg-[#0A2A1D] hover:bg-[#133D2B] text-[#FDFBF7] font-semibold text-[13.5px] rounded-[6px] transition-colors flex items-center justify-center gap-2 shadow-sm cursor-pointer"
-              >
-                <Search size={16} />
-                <span>Search</span>
-              </button>
-            </div>
-          </form>
-
-          {/* Quick Popular Locations */}
-          <div className="flex flex-wrap items-center gap-2 mt-4 pt-3 border-t border-[#E5DFD5]/60 text-[12px] text-[#57605B]">
-            <span className="font-semibold text-[#1A1E1C]">Popular searches:</span>
-            {locationSuggestions.slice(0, 5).map((loc) => (
-              <button
-                key={loc.name}
-                type="button"
-                onClick={() => {
-                  setLocationInput(loc.name);
-                  navigate('/search', { city: loc.name, intent });
-                }}
-                className="px-2.5 py-1 rounded-[4px] bg-[#F4EFE6] hover:bg-[#E5DFD5] text-[#1A1E1C] transition-colors cursor-pointer"
-              >
-                {loc.name}
-              </button>
-            ))}
+              {/* Segment 4: Search Button */}
+              <div className="p-1 sm:p-1.5 flex justify-end">
+                <button
+                  type="submit"
+                  className="w-full sm:w-auto px-7 py-3 rounded-xl sm:rounded-full bg-[#0A2A1D] hover:bg-[#133D2B] text-[#FDFBF7] font-semibold text-[14px] flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all cursor-pointer"
+                >
+                  <Search size={16} />
+                  <span>Search</span>
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>

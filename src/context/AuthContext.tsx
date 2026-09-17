@@ -49,9 +49,17 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [user, setUser] = useState<UserProfile | null>(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
-      return saved ? JSON.parse(saved) : DEMO_BUYER;
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed?.id === 'usr-demo-buyer' || parsed?.name === 'Devraj Kapoor') {
+          localStorage.removeItem(STORAGE_KEY);
+          return null;
+        }
+        return parsed;
+      }
+      return null;
     } catch {
-      return DEMO_BUYER;
+      return null;
     }
   });
 

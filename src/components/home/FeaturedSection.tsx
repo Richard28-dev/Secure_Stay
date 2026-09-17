@@ -36,17 +36,15 @@ export default function FeaturedSection() {
       <div className="container-luxury">
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
-          <div>
-            <span className="text-[12px] font-bold uppercase tracking-wider text-[#0E2A1E] block mb-2">
-              Curated Listings
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-bold text-[#1A1C1A] font-heading tracking-tight">
-              Featured Properties
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E4ECE7] text-[#0A2A1D] text-[12px] font-bold tracking-wider mb-2.5 border border-[#0A2A1D]/15">
+              <span>Verified Portfolio · Exceptional Homes</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-bold text-[#1A1E1C] font-heading tracking-tight">
+              Properties of Distinction
             </h2>
-            <p className="text-[15px] text-[#5A605B] mt-2 max-w-xl font-normal">
-              Explore carefully selected properties verified by SecureStay.
+            <p className="text-[15px] text-[#57605B] mt-2 max-w-xl font-normal leading-relaxed">
+              Hand-selected villas, private retreats, and architectural residences chosen for their spatial privacy, light, and natural setting.
             </p>
-          </div>
 
           {/* Filter Tabs & Sorting */}
           <div className="flex flex-wrap items-center gap-3">
@@ -259,7 +257,7 @@ export default function FeaturedSection() {
             onClick={() => navigate('/buy')}
             className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-[8px] bg-[#0E2A1E] hover:bg-[#163A29] text-[#FAF8F5] text-[14px] font-semibold transition-all cursor-pointer shadow-sm"
           >
-            <span>View All Available Properties</span>
+            <span>Explore Complete Sanctuary Portfolio</span>
             <ArrowRight size={16} />
           </button>
         </div>
