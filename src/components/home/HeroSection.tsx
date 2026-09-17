@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Search, MapPin, Home, IndianRupee, ArrowRight, PhoneCall, Trees, Sparkles, ShieldCheck } from 'lucide-react';
+import { Search, MapPin, Home, IndianRupee, ArrowRight, PhoneCall, Trees, Sparkles, ShieldCheck, Waves, Mountain, Sun, Flower2 } from 'lucide-react';
 import { useRouter } from '../../context/RouterContext';
 import heroBgImage from '../../assets/images/luxury-terrace-hero-bg.jpg';
 
@@ -16,10 +16,17 @@ export default function HeroSection() {
     { name: 'Assagao', city: 'North Goa', count: '18 heritage villas' },
     { name: 'Coorg', city: 'Karnataka', count: '12 forest estates' },
     { name: 'Alibaug', city: 'Maharashtra', count: '15 waterfront retreats' },
-    { name: 'Whitefield & Sarjapur', city: 'Bengaluru', count: '34 green enclaves' },
+    { name: 'Sarjapur & Whitefield', city: 'Bengaluru', count: '34 green enclaves' },
     { name: 'Jubilee Hills', city: 'Hyderabad', count: '24 private sanctuaries' },
     { name: 'Kodaikanal', city: 'Tamil Nadu', count: '9 hillside estates' },
     { name: 'Bandra West', city: 'Mumbai', count: '19 coastal residences' },
+  ];
+
+  const atmosphereFilters = [
+    { label: 'Assagao Villas', icon: Waves, city: 'Goa', type: 'Villa' },
+    { label: 'Coorg Forest Estates', icon: Mountain, city: 'Coorg', type: 'Estate' },
+    { label: 'Courtyard Homes', icon: Flower2, type: 'Villa' },
+    { label: 'Sky Penthouses', icon: Sun, type: 'Penthouse' },
   ];
 
   const filteredLocations = locationSuggestions.filter(
@@ -49,8 +56,8 @@ export default function HeroSection() {
   };
 
   return (
-    <section className="relative w-full pt-32 pb-20 lg:pt-40 lg:pb-28 overflow-hidden bg-[#FAF8F5]">
-      {/* Photorealistic Luxury Residence Terrace & Canopy Background */}
+    <section className="relative w-full pt-36 pb-24 sm:pt-40 sm:pb-28 lg:pt-48 lg:pb-36 overflow-hidden bg-[#FAF8F5]">
+      {/* High-Resolution Architectural Background with Balanced Daylight Vignette */}
       <div
         className="absolute inset-0 bg-cover bg-center transition-all duration-1000 pointer-events-none"
         style={{
@@ -59,36 +66,36 @@ export default function HeroSection() {
           backgroundPosition: 'center',
         }}
       >
-        {/* Soft, balanced daylight gradients that let the architectural terrace show through cleanly */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#FAF8F5]/90 via-[#FAF8F5]/70 to-[#FAF8F5]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(250,248,245,0.75)_80%)]" />
+        {/* Crisp, layered gradient: gives readable text contrast while letting the high-res terrace view shine */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#FAF8F5]/92 via-[#FAF8F5]/60 to-[#FAF8F5]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_35%,rgba(250,248,245,0.4)_0%,rgba(250,248,245,0.85)_80%)]" />
       </div>
 
       <div className="container-luxury relative z-10">
         {/* Editorial Centered Hero Header */}
-        <div className="text-center max-w-4xl mx-auto space-y-6 mb-12 lg:mb-14">
-          {/* Subtle Top Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/90 border border-[#0A2A1D]/15 text-[#0A2A1D] text-[12px] font-bold tracking-wider shadow-xs backdrop-blur-xs">
+        <div className="text-center max-w-4xl mx-auto space-y-6 mb-12 sm:mb-14">
+          {/* Top Subtle Badge */}
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/95 border border-[#0A2A1D]/15 text-[#0A2A1D] text-[12px] font-bold tracking-wider shadow-xs backdrop-blur-md">
             <Sparkles size={14} className="text-[#C5A880]" />
             <span>Curated Sanctuary Estates & Private Villas</span>
           </div>
 
           {/* Main Headline */}
-          <h1 className="text-4xl sm:text-5xl lg:text-[4.25rem] font-bold text-[#1A1E1C] tracking-tight leading-[1.08] font-heading">
+          <h1 className="text-4xl sm:text-5xl lg:text-[4.35rem] font-bold text-[#1A1E1C] tracking-tight leading-[1.08] font-heading">
             Sanctuaries crafted for <br className="hidden sm:inline" />
             <span className="text-[#0A2A1D] italic font-serif">calm, light, and living well.</span>
           </h1>
 
           {/* Subtitle */}
           <p className="text-lg sm:text-[19px] text-[#4A544F] leading-relaxed max-w-2xl mx-auto font-normal">
-            Private pool villas, serene forest estates, and light-filled courtyard homes curated across India’s most tranquil landscapes.
+            Private pool villas, serene forest retreats, and light-filled courtyard residences curated across India’s most tranquil landscapes.
           </p>
 
-          {/* Centered Actions */}
+          {/* Action CTAs */}
           <div className="flex flex-wrap items-center justify-center gap-3.5 pt-2">
             <button
               onClick={() => navigate('/buy')}
-              className="btn-forest text-[15px] px-7 py-3.5 rounded-[8px] flex items-center gap-2 shadow-sm group cursor-pointer"
+              className="btn-forest text-[15px] px-7 py-3.5 rounded-[8px] flex items-center gap-2 shadow-sm group cursor-pointer hover:shadow-md transition-all"
             >
               <span>Explore Sanctuaries</span>
               <ArrowRight size={17} className="transition-transform group-hover:translate-x-0.5" />
@@ -96,7 +103,7 @@ export default function HeroSection() {
 
             <button
               onClick={() => navigate('/contact')}
-              className="btn-outline-forest text-[15px] px-7 py-3.5 rounded-[8px] bg-white/95 flex items-center gap-2 cursor-pointer shadow-xs hover:shadow"
+              className="btn-outline-forest text-[15px] px-7 py-3.5 rounded-[8px] bg-white/95 flex items-center gap-2 cursor-pointer shadow-xs hover:shadow transition-all"
             >
               <PhoneCall size={16} className="text-[#0A2A1D]" />
               <span>Book Private Advisory</span>
@@ -104,7 +111,7 @@ export default function HeroSection() {
           </div>
 
           {/* Trust Highlights Strip */}
-          <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-10 pt-2 text-[13px] text-[#4A544F] font-medium">
+          <div className="flex flex-wrap items-center justify-center gap-5 sm:gap-8 pt-2 text-[12.5px] sm:text-[13px] text-[#4A544F] font-medium">
             <span className="flex items-center gap-1.5">
               <ShieldCheck size={16} className="text-[#0A2A1D]" />
               <span>100% Freehold & Title Verified</span>
@@ -117,19 +124,19 @@ export default function HeroSection() {
             <span className="hidden sm:inline text-[#C5A880]">•</span>
             <span className="flex items-center gap-1.5">
               <Sparkles size={16} className="text-[#0A2A1D]" />
-              <span>Zero Broker Conflict</span>
+              <span>Fiduciary Client Advisory</span>
             </span>
           </div>
         </div>
 
         {/* Ultra-Sleek Floating Search Capsule */}
         <div className="max-w-4xl mx-auto">
-          {/* Understated Intent Tabs */}
+          {/* Understated Purchase / Lease Tabs */}
           <div className="flex items-center justify-center gap-8 mb-4">
             <button
               type="button"
               onClick={() => setIntent('buy')}
-              className={`text-[14px] font-semibold tracking-wide transition-all pb-1.5 cursor-pointer border-b-2 ${
+              className={`text-[14px] font-semibold tracking-wide transition-all pb-1 cursor-pointer border-b-2 ${
                 intent === 'buy'
                   ? 'border-[#0A2A1D] text-[#0A2A1D]'
                   : 'border-transparent text-[#6B7570] hover:text-[#1A1E1C]'
@@ -140,7 +147,7 @@ export default function HeroSection() {
             <button
               type="button"
               onClick={() => setIntent('rent')}
-              className={`text-[14px] font-semibold tracking-wide transition-all pb-1.5 cursor-pointer border-b-2 ${
+              className={`text-[14px] font-semibold tracking-wide transition-all pb-1 cursor-pointer border-b-2 ${
                 intent === 'rent'
                   ? 'border-[#0A2A1D] text-[#0A2A1D]'
                   : 'border-transparent text-[#6B7570] hover:text-[#1A1E1C]'
@@ -150,22 +157,22 @@ export default function HeroSection() {
             </button>
           </div>
 
-          {/* Unified Floating Search Bar */}
-          <div className="bg-white rounded-2xl sm:rounded-full border border-[#E5DFD5] shadow-lg hover:shadow-xl transition-all duration-300 p-2 sm:p-2.5">
+          {/* Unified Floating Search Bar with Soft Glassmorphic Backdrop */}
+          <div className="bg-white/95 backdrop-blur-md rounded-2xl sm:rounded-full border border-[#E5DFD5] shadow-xl hover:shadow-2xl transition-all duration-300 p-2 sm:p-2.5">
             <form
               onSubmit={handleSearchSubmit}
               className="flex flex-col sm:flex-row items-stretch sm:items-center divide-y sm:divide-y-0 sm:divide-x divide-[#E5DFD5]"
             >
               {/* Segment 1: Destination */}
-              <div className="flex-1 min-w-[200px] px-4 py-2.5 sm:py-1 relative">
-                <label className="block text-[10.5px] font-bold uppercase tracking-wider text-[#7D8882] mb-0.5">
+              <div className="flex-1 min-w-[210px] px-4 py-2.5 sm:py-1 relative">
+                <label className="block text-[10px] font-bold uppercase tracking-wider text-[#7D8882] mb-0.5">
                   Destination
                 </label>
                 <div className="flex items-center gap-2">
                   <MapPin size={16} className="text-[#0A2A1D] shrink-0" />
                   <input
                     type="text"
-                    placeholder="e.g. Assagao, Coorg, Alibaug..."
+                    placeholder="Where in India? (e.g. Assagao, Coorg...)"
                     value={locationInput}
                     onChange={(e) => setLocationInput(e.target.value)}
                     onFocus={() => setIsLocationFocused(true)}
@@ -174,9 +181,9 @@ export default function HeroSection() {
                   />
                 </div>
 
-                {/* Clean Floating Autocomplete Dropdown */}
+                {/* Autocomplete Dropdown */}
                 {isLocationFocused && filteredLocations.length > 0 && (
-                  <div className="absolute left-0 right-0 top-full mt-3 bg-white border border-[#E5DFD5] rounded-xl shadow-xl z-50 max-h-56 overflow-y-auto py-1">
+                  <div className="absolute left-0 right-0 top-full mt-3 bg-white border border-[#E5DFD5] rounded-xl shadow-2xl z-50 max-h-56 overflow-y-auto py-1 animate-fadeIn">
                     {filteredLocations.map((loc) => (
                       <button
                         key={loc.name}
@@ -203,7 +210,7 @@ export default function HeroSection() {
 
               {/* Segment 2: Estate Type */}
               <div className="px-4 py-2.5 sm:py-1 min-w-[170px]">
-                <label className="block text-[10.5px] font-bold uppercase tracking-wider text-[#7D8882] mb-0.5">
+                <label className="block text-[10px] font-bold uppercase tracking-wider text-[#7D8882] mb-0.5">
                   Estate Type
                 </label>
                 <div className="flex items-center gap-2">
@@ -224,7 +231,7 @@ export default function HeroSection() {
 
               {/* Segment 3: Budget Range */}
               <div className="px-4 py-2.5 sm:py-1 min-w-[160px]">
-                <label className="block text-[10.5px] font-bold uppercase tracking-wider text-[#7D8882] mb-0.5">
+                <label className="block text-[10px] font-bold uppercase tracking-wider text-[#7D8882] mb-0.5">
                   Investment
                 </label>
                 <div className="flex items-center gap-2">
@@ -247,13 +254,39 @@ export default function HeroSection() {
               <div className="p-1 sm:p-1.5 flex justify-end">
                 <button
                   type="submit"
-                  className="w-full sm:w-auto px-7 py-3 rounded-xl sm:rounded-full bg-[#0A2A1D] hover:bg-[#133D2B] text-[#FDFBF7] font-semibold text-[14px] flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all cursor-pointer"
+                  className="w-full sm:w-auto px-7 py-3.5 rounded-xl sm:rounded-full bg-[#0A2A1D] hover:bg-[#133D2B] text-[#FDFBF7] font-semibold text-[14px] flex items-center justify-center gap-2 shadow-md hover:shadow-xl transition-all cursor-pointer hover:scale-[1.02]"
                 >
                   <Search size={16} />
                   <span>Search</span>
                 </button>
               </div>
             </form>
+          </div>
+
+          {/* Quick Atmosphere Filter Chips Below Search */}
+          <div className="flex flex-wrap items-center justify-center gap-2.5 mt-5">
+            <span className="text-[12px] font-semibold text-[#6B7570] mr-1">Explore Atmospheres:</span>
+            {atmosphereFilters.map((atm) => {
+              const Icon = atm.icon;
+              return (
+                <button
+                  key={atm.label}
+                  type="button"
+                  onClick={() => {
+                    if (atm.city) setLocationInput(atm.city);
+                    if (atm.type) setPropertyType(atm.type);
+                    const params: Record<string, string | number | boolean> = { intent };
+                    if (atm.city) params.city = atm.city;
+                    if (atm.type) params.type = atm.type;
+                    navigate('/search', params);
+                  }}
+                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/80 hover:bg-white border border-[#E5DFD5] hover:border-[#0A2A1D]/40 text-[#1A1E1C] text-[12px] font-medium transition-all shadow-xs hover:shadow cursor-pointer"
+                >
+                  <Icon size={13} className="text-[#0A2A1D]" />
+                  <span>{atm.label}</span>
+                </button>
+              );
+            })}
           </div>
         </div>
       </div>

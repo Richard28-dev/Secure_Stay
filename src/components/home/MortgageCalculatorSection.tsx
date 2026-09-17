@@ -1,13 +1,13 @@
 import { useState, useMemo } from 'react';
-import { Calculator, ShieldCheck, ArrowRight } from 'lucide-react';
+import { Calculator, ShieldCheck, Sparkles } from 'lucide-react';
 import { useRouter } from '../../context/RouterContext';
 
 export default function MortgageCalculatorSection() {
   const { navigate } = useRouter();
 
   // Calculation States
-  const [propertyPrice, setPropertyPrice] = useState<number>(12500000); // 1.25 Cr default
-  const [downPaymentPercent, setDownPaymentPercent] = useState<number>(20); // 20%
+  const [propertyPrice, setPropertyPrice] = useState<number>(25000000); // 2.50 Cr default for luxury sanctuary
+  const [downPaymentPercent, setDownPaymentPercent] = useState<number>(25); // 25%
   const [interestRate, setInterestRate] = useState<number>(8.5); // 8.5%
   const [tenureYears, setTenureYears] = useState<number>(20); // 20 years
 
@@ -37,7 +37,7 @@ export default function MortgageCalculatorSection() {
   }, [totalPayment, loanAmount]);
 
   const stampDutyEst = useMemo(() => {
-    return Math.round(propertyPrice * 0.056); // 5.6% standard registration & stamp duty in Karnataka
+    return Math.round(propertyPrice * 0.056); // 5.6% standard registration & stamp duty
   }, [propertyPrice]);
 
   const formatINR = (val: number) => {
@@ -51,66 +51,66 @@ export default function MortgageCalculatorSection() {
   };
 
   return (
-    <section className="py-16 lg:py-24 bg-white border-t border-[#E5E0D8]">
+    <section className="py-20 lg:py-28 bg-[#FAF8F5] border-t border-[#E5DFD5]">
       <div className="container-luxury">
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-[4px] bg-[#E8EFE8] text-[#0E2A1E] text-[12px] font-bold uppercase tracking-wider mb-2.5">
-              <Calculator size={14} className="text-[#0E2A1E]" />
-              <span>Financial Planning</span>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#E4ECE7] text-[#0A2A1D] text-[12px] font-bold tracking-wider mb-3 border border-[#0A2A1D]/15">
+              <Calculator size={14} className="text-[#0A2A1D]" />
+              <span>Private Wealth Planning</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl font-bold text-[#1A1C1A] font-heading tracking-tight">
-              Interactive Mortgage & EMI Estimator
+            <h2 className="text-3xl sm:text-4xl font-bold text-[#1A1E1C] font-heading tracking-tight">
+              Estate Financing & Investment Estimator
             </h2>
-            <p className="text-[15px] text-[#5A605B] mt-2 max-w-xl font-normal">
-              Calculate realistic monthly commitments, down payment amounts, and verified loan-to-value allocations.
+            <p className="text-[15.5px] text-[#57605B] mt-2 max-w-xl font-normal leading-relaxed">
+              Model your capital allocation, monthly commitments, and legal acquisition stamp duty for high-value sanctuaries.
             </p>
           </div>
 
-          <div className="flex items-center gap-2 text-[13px] font-semibold text-[#0E2A1E] bg-[#FAF8F5] border border-[#E5E0D8] px-4 py-2 rounded-[6px]">
-            <ShieldCheck size={16} />
-            <span>Pre-approved bank tie-ups (HDFC, SBI, ICICI)</span>
+          <div className="flex items-center gap-2 text-[13px] font-semibold text-[#0A2A1D] bg-white border border-[#E5DFD5] px-4 py-2.5 rounded-full shadow-xs">
+            <ShieldCheck size={16} className="text-[#0A2A1D]" />
+            <span>Pre-approved tie-ups with Private Banks</span>
           </div>
         </div>
 
-        {/* Main Calculator Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start bg-[#FAF8F5] border border-[#E5E0D8] rounded-[8px] p-6 sm:p-8 lg:p-10 shadow-xs">
+        {/* Main Calculator Card */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start bg-white border border-[#E5DFD5] rounded-[16px] p-6 sm:p-8 lg:p-12 shadow-xl">
           {/* Left Column: Interactive Sliders */}
-          <div className="lg:col-span-7 space-y-6">
+          <div className="lg:col-span-7 space-y-7">
             {/* Slider 1: Property Value */}
             <div>
-              <div className="flex justify-between items-center mb-2">
-                <label className="text-[13px] font-bold uppercase tracking-wider text-[#5A605B]">
-                  Property Value
+              <div className="flex justify-between items-center mb-2.5">
+                <label className="text-[12.5px] font-bold uppercase tracking-wider text-[#57605B]">
+                  Sanctuary Valuation
                 </label>
-                <span className="text-[18px] font-extrabold text-[#0E2A1E] font-heading">
+                <span className="text-2xl font-bold text-[#0A2A1D] font-heading">
                   {formatINR(propertyPrice)}
                 </span>
               </div>
               <input
                 type="range"
                 min={5000000}
-                max={60000000}
+                max={80000000}
                 step={500000}
                 value={propertyPrice}
                 onChange={(e) => setPropertyPrice(Number(e.target.value))}
-                className="w-full h-2 bg-[#E5E0D8] rounded-lg appearance-none cursor-pointer accent-[#0E2A1E]"
+                className="w-full h-2 bg-[#E4ECE7] rounded-lg appearance-none cursor-pointer accent-[#0A2A1D]"
               />
-              <div className="flex justify-between text-[11px] text-[#8C938E] mt-1 font-medium">
+              <div className="flex justify-between text-[11px] text-[#8C938E] mt-1.5 font-medium">
                 <span>₹50 Lakhs</span>
-                <span>₹3.0 Cr</span>
-                <span>₹6.0 Cr</span>
+                <span>₹4.0 Cr</span>
+                <span>₹8.0 Cr</span>
               </div>
             </div>
 
             {/* Slider 2: Down Payment Percentage */}
             <div>
-              <div className="flex justify-between items-center mb-2">
-                <label className="text-[13px] font-bold uppercase tracking-wider text-[#5A605B]">
-                  Down Payment ({downPaymentPercent}%)
+              <div className="flex justify-between items-center mb-2.5">
+                <label className="text-[12.5px] font-bold uppercase tracking-wider text-[#57605B]">
+                  Initial Equity ({downPaymentPercent}%)
                 </label>
-                <span className="text-[16px] font-bold text-[#1A1C1A]">
+                <span className="text-lg font-bold text-[#1A1E1C]">
                   {formatINR(downPaymentAmount)}
                 </span>
               </div>
@@ -121,11 +121,11 @@ export default function MortgageCalculatorSection() {
                 step={5}
                 value={downPaymentPercent}
                 onChange={(e) => setDownPaymentPercent(Number(e.target.value))}
-                className="w-full h-2 bg-[#E5E0D8] rounded-lg appearance-none cursor-pointer accent-[#0E2A1E]"
+                className="w-full h-2 bg-[#E4ECE7] rounded-lg appearance-none cursor-pointer accent-[#0A2A1D]"
               />
-              <div className="flex justify-between text-[11px] text-[#8C938E] mt-1 font-medium">
+              <div className="flex justify-between text-[11px] text-[#8C938E] mt-1.5 font-medium">
                 <span>10% (Minimum)</span>
-                <span>20% (Standard)</span>
+                <span>25% (Standard)</span>
                 <span>50%</span>
               </div>
             </div>
@@ -134,35 +134,34 @@ export default function MortgageCalculatorSection() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-2">
               <div>
                 <div className="flex justify-between items-center mb-2">
-                  <label className="text-[13px] font-bold uppercase tracking-wider text-[#5A605B]">
+                  <label className="text-[12px] font-bold uppercase tracking-wider text-[#57605B]">
                     Interest Rate
                   </label>
-                  <span className="text-[16px] font-bold text-[#1A1C1A]">
+                  <span className="text-base font-bold text-[#1A1E1C]">
                     {interestRate}% p.a.
                   </span>
                 </div>
                 <input
                   type="range"
                   min={7.5}
-                  max={11.0}
+                  max={12}
                   step={0.1}
                   value={interestRate}
                   onChange={(e) => setInterestRate(Number(e.target.value))}
-                  className="w-full h-2 bg-[#E5E0D8] rounded-lg appearance-none cursor-pointer accent-[#0E2A1E]"
+                  className="w-full h-2 bg-[#E4ECE7] rounded-lg appearance-none cursor-pointer accent-[#0A2A1D]"
                 />
-                <div className="flex justify-between text-[11px] text-[#8C938E] mt-1 font-medium">
+                <div className="flex justify-between text-[11px] text-[#8C938E] mt-1">
                   <span>7.5%</span>
-                  <span>9.0%</span>
-                  <span>11.0%</span>
+                  <span>12.0%</span>
                 </div>
               </div>
 
               <div>
                 <div className="flex justify-between items-center mb-2">
-                  <label className="text-[13px] font-bold uppercase tracking-wider text-[#5A605B]">
-                    Loan Tenure
+                  <label className="text-[12px] font-bold uppercase tracking-wider text-[#57605B]">
+                    Tenure
                   </label>
-                  <span className="text-[16px] font-bold text-[#1A1C1A]">
+                  <span className="text-base font-bold text-[#1A1E1C]">
                     {tenureYears} Years
                   </span>
                 </div>
@@ -170,79 +169,69 @@ export default function MortgageCalculatorSection() {
                   type="range"
                   min={5}
                   max={30}
-                  step={5}
+                  step={1}
                   value={tenureYears}
                   onChange={(e) => setTenureYears(Number(e.target.value))}
-                  className="w-full h-2 bg-[#E5E0D8] rounded-lg appearance-none cursor-pointer accent-[#0E2A1E]"
+                  className="w-full h-2 bg-[#E4ECE7] rounded-lg appearance-none cursor-pointer accent-[#0A2A1D]"
                 />
-                <div className="flex justify-between text-[11px] text-[#8C938E] mt-1 font-medium">
+                <div className="flex justify-between text-[11px] text-[#8C938E] mt-1">
                   <span>5 Yrs</span>
-                  <span>20 Yrs</span>
                   <span>30 Yrs</span>
                 </div>
               </div>
             </div>
+
+            {/* Micro Disclaimers */}
+            <div className="pt-2 text-[12px] text-[#8C938E] leading-relaxed border-t border-[#E5DFD5]">
+              *Indicative calculation only. Rates subject to financial profile, RERA appraisal, and lending institutional underwriting.
+            </div>
           </div>
 
-          {/* Right Column: Calculated Results Summary Card */}
-          <div className="lg:col-span-5 bg-white border border-[#E5E0D8] rounded-[8px] p-6 sm:p-7 shadow-sm">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-[#5A605B] block mb-1">
-              Estimated Monthly Outlay
-            </span>
-            <div className="text-3xl sm:text-4xl font-extrabold text-[#0E2A1E] font-heading mb-6 leading-none">
-              ₹{monthlyEMI.toLocaleString('en-IN')}{' '}
-              <span className="text-[14px] text-[#5A605B] font-normal font-sans">/ month</span>
-            </div>
-
-            {/* Visual Breakdown Bar */}
-            <div className="space-y-2 mb-6">
-              <div className="h-3 w-full bg-[#E5E0D8] rounded-full overflow-hidden flex">
-                <div
-                  className="bg-[#0E2A1E] h-full transition-all duration-300"
-                  style={{ width: `${(loanAmount / (totalPayment || 1)) * 100}%` }}
-                  title="Principal Loan Amount"
-                />
-                <div
-                  className="bg-[#C5A880] h-full transition-all duration-300"
-                  style={{ width: `${(totalInterest / (totalPayment || 1)) * 100}%` }}
-                  title="Total Interest"
-                />
-              </div>
-              <div className="flex justify-between text-[11.5px] text-[#5A605B] font-medium">
-                <span className="flex items-center gap-1.5">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#0E2A1E]" />
-                  Principal: {formatINR(loanAmount)}
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#C5A880]" />
-                  Interest: {formatINR(totalInterest)}
-                </span>
+          {/* Right Column: Private Wealth Commitment Summary Card */}
+          <div className="lg:col-span-5 bg-[#0A2A1D] text-[#FAF8F5] rounded-[14px] p-6 sm:p-8 shadow-2xl border border-[#C5A880]/30 space-y-6">
+            <div className="border-b border-white/15 pb-5">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-[#A3B8A8] block mb-1">
+                Estimated Monthly Commitment
+              </span>
+              <div className="text-3xl sm:text-4xl font-extrabold text-[#C5A880] font-heading tracking-tight">
+                {formatINR(monthlyEMI)} <span className="text-base font-normal text-[#FAF8F5]">/ month</span>
               </div>
             </div>
 
-            {/* Key Data Summary List */}
-            <div className="space-y-2.5 pt-4 border-t border-[#E5E0D8] text-[13px]">
-              <div className="flex justify-between">
-                <span className="text-[#5A605B]">Down Payment ({downPaymentPercent}%)</span>
-                <span className="font-bold text-[#1A1C1A]">{formatINR(downPaymentAmount)}</span>
+            {/* Key Metrics Breakdown */}
+            <div className="space-y-3.5 text-[13px]">
+              <div className="flex justify-between items-center text-[#D2DFD2]">
+                <span>Principal Financed</span>
+                <span className="font-semibold text-[#FAF8F5]">{formatINR(loanAmount)}</span>
               </div>
-              <div className="flex justify-between">
-                <span className="text-[#5A605B]">Est. Registration & Stamp Duty (5.6%)</span>
-                <span className="font-bold text-[#1A1C1A]">{formatINR(stampDutyEst)}</span>
+
+              <div className="flex justify-between items-center text-[#D2DFD2]">
+                <span>Total Interest Payable</span>
+                <span className="font-semibold text-[#FAF8F5]">{formatINR(totalInterest)}</span>
               </div>
-              <div className="flex justify-between">
-                <span className="text-[#5A605B]">Total Loan Payable</span>
-                <span className="font-bold text-[#0E2A1E]">{formatINR(totalPayment)}</span>
+
+              <div className="flex justify-between items-center text-[#D2DFD2]">
+                <span>Est. Stamp Duty & Legal (5.6%)</span>
+                <span className="font-semibold text-[#FAF8F5]">{formatINR(stampDutyEst)}</span>
+              </div>
+
+              <div className="flex justify-between items-center pt-3 border-t border-white/15 text-[14px]">
+                <span className="font-bold text-[#FAF8F5]">Total Outlay Over Tenure</span>
+                <span className="font-bold text-[#C5A880]">{formatINR(totalPayment + downPaymentAmount)}</span>
               </div>
             </div>
 
-            <button
-              onClick={() => navigate('/contact')}
-              className="mt-6 w-full py-3 rounded-[6px] bg-[#0E2A1E] hover:bg-[#163A29] text-[#FAF8F5] text-[13.5px] font-semibold transition-all flex items-center justify-center gap-2 cursor-pointer shadow-xs"
-            >
-              <span>Get Bank Pre-Approval Assistance</span>
-              <ArrowRight size={15} />
-            </button>
+            {/* Direct Action */}
+            <div className="pt-2">
+              <button
+                type="button"
+                onClick={() => navigate('/contact')}
+                className="w-full py-3.5 rounded-[8px] bg-[#C5A880] hover:bg-[#D4BC96] text-[#0A2A1D] text-[13.5px] font-bold transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md hover:shadow-lg"
+              >
+                <Sparkles size={16} />
+                <span>Inquire for Private Pre-Approval</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>

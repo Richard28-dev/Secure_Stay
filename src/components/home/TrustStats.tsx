@@ -29,30 +29,34 @@ export default function TrustStats() {
   ];
 
   return (
-    <section className="bg-white border-y border-[#E5DFD5] py-12 lg:py-16">
-      <div className="container-luxury">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10 divide-y sm:divide-y-0 lg:divide-x divide-[#E5DFD5]">
+    <section className="bg-[#0A2A1D] text-[#FAF8F5] border-y border-[#C5A880]/20 py-14 lg:py-18 relative overflow-hidden">
+      {/* Ambient background glow elements */}
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#133D2B]/50 rounded-full blur-3xl pointer-events-none -mt-48" />
+      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#C5A880]/10 rounded-full blur-3xl pointer-events-none -mb-48" />
+
+      <div className="container-luxury relative z-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10 divide-y sm:divide-y-0 lg:divide-x divide-white/10">
           {stats.map((stat, idx) => {
             const Icon = stat.icon;
             return (
               <div
                 key={stat.label}
-                className={`flex flex-col justify-center ${
+                className={`flex flex-col justify-center group ${
                   idx > 0 ? 'pt-6 sm:pt-0 lg:pl-10' : ''
                 }`}
               >
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="w-10 h-10 rounded-[8px] bg-[#E4ECE7] text-[#0A2A1D] flex items-center justify-center">
-                    <Icon size={20} strokeWidth={2} />
+                <div className="flex items-center gap-3 mb-2.5">
+                  <div className="w-11 h-11 rounded-[10px] bg-white/10 border border-white/15 text-[#C5A880] flex items-center justify-center group-hover:bg-[#C5A880] group-hover:text-[#0A2A1D] transition-all duration-300">
+                    <Icon size={22} strokeWidth={2} />
                   </div>
-                  <span className="text-3xl sm:text-4xl font-bold text-[#0A2A1D] font-heading tracking-tight">
+                  <span className="text-3xl sm:text-4xl font-bold text-[#C5A880] font-heading tracking-tight">
                     {stat.value}
                   </span>
                 </div>
-                <h3 className="text-[16px] font-bold text-[#1A1E1C] leading-snug font-heading">
+                <h3 className="text-[16px] font-bold text-[#FAF8F5] leading-snug font-heading group-hover:text-[#C5A880] transition-colors">
                   {stat.label}
                 </h3>
-                <p className="text-[13px] text-[#57605B] mt-1 leading-relaxed">
+                <p className="text-[13px] text-[#A3B8A8] mt-1 leading-relaxed">
                   {stat.sublabel}
                 </p>
               </div>
